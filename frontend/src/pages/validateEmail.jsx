@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRegisterMutation } from "../slices/usersApiSlice";
 import { useRegisterAddressMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
-import { setAddress } from "../slices/authSlice";
 import {
   updateEmail,
   updateEmailIsVerified,
 } from "../slices/userInfoSlice";
-import { Container, Form as BootstrapForm, Row, Col , Button, Modal, FormGroup, FormCheck  } from "react-bootstrap";
+import { Form as BootstrapForm, Row, Col , Button, Modal  } from "react-bootstrap";
 import "../styles/validateEmail.css";
 import OtpInput from '../components/otpInput.jsx';
 import FormContainer from "../components/FormContainer";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import { updateUserid } from '../slices/autocompleteSlice.js';
+import { useSendOTPMutation , useVerifyOTPMutation } from '../slices/otpAPIslice';
 
 
 
@@ -25,19 +24,19 @@ function EmailValidationPage() {
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isResendButtonEnabled, setIsResendButtonEnabled] = useState(false);
-  const [isValidOTP, setIsValidOTP] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isTouchedEmail, setIsTouchedEmail] = useState(false);
   const [otp, setOTP] = useState('');
   const [message, setMessage] = useState('');
-  const [user_ID, setUserID]= useState('');
 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
-  const [registerAddress, { isLoadingAddress }] = useRegisterAddressMutation();
+
+  const [sendOTPMutate, { isLoadingSendOTP }] = useSendOTPMutation();
+  const [verifyOTPMutate, { isLoadingVerifySendOTP }] = useVerifyOTPMutation();
 
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -91,51 +90,11 @@ function EmailValidationPage() {
   };
 
 
-
-
-  //const [hasRunFunction, setHasRunFunction] = useState(false);
-
-  //setEmail(useSelector((state) => state.userInfo.email));
-  //console.log("from where email comes from redux");
-  //console.log(emailFromRedux);
-  
- // useEffect(() => {
-    //if (!hasRunFunction && emailFromRedux) {
-  //  sendOTP(email);
-      // Call your function with the email once
-      //const myFunction = (emailFromRedux) => {
-        // Do something with the email
-       // console.log('Email:', emailFromRedux);
-      //myFunction(emailFromRedux);
-      //setHasRunFunction(true);
-    
-    // if (userInfo) {
-    //   navigate('/');
-    // }
-    // setEmail(emailFromRedux);
-    // console.log("from where useeffect");
-    // console.log(emailFromRedux);
-    //sendOTP(emailFromRedux);
-  //}, [navigate, userInfo, emailFromRedux]);
-//}, []);
-//}, [email]);
-
   async function sendOTP(email){
     try {
-      const response = await fetch('http://localhost:5000/email/sendOTP', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-      
-      const data = await response.json();
-      //const data = JSON.parse(data1);
-      console.log(data.message);
-      setMessage(data.message);
+      const response = await sendOTPMutate({email}).unwrap();
+      setMessage(response.message);
     } catch (error) {
-      //console.error('Error:', error);
       setMessage('Error sending OTP');
     }
   };
@@ -143,48 +102,23 @@ function EmailValidationPage() {
 
   const handleVerifyOTP = async (email, otp ) => {
     try {
-      const response = await fetch('http://localhost:5000/email/verifyOTP', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, otp }),
-      });
 
-      // if(response.status === 200){
-      //   updateEmailIsVerified("1");
-      //   console.log(emailIsVerified);
-      //         try {const res = await register({ name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms }).unwrap();
-      //         dispatch(setCredentials({ ...res }));
-      //         navigate('/');
-      //       } catch (err) {
-      //         //toast.error(err?.data?.message || err.error);
-      //         setMessage('❌ Wrong OTP Please Check Again');
-      //       }
+      const response = await verifyOTPMutate({ email, otp }).unwrap();
 
-      // }
-      
       if (response.status === 200) {
         try {
-          await updateEmailIsVerified("1");
-          // console.log(emailIsVerified); 
+          await updateEmailIsVerified("1"); 
       
           const res = await register({ name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress, marketing }).unwrap();
           dispatch(setCredentials({ ...res }));
-          // const userI = res._id;
-          // setUserID(userI);
-          // const resAddress = await registerAddress({ userID, addressName, lat, long, town, suburb, street, streetNumber, postalCode }).unwrap();
-          // dispatch(setAddress({ ...resAddress }));
 
           navigate('/');
         } catch (err) {
-          //toast.error(err?.data?.message || err.error);
           setMessage('❌ Wrong OTP Please Check Again');
         }
       }
       
       const data = await response.json();
-      console.log(data.message);
       setMessage(data.message);
     } catch (error) {
       //console.error('Error:', error);
@@ -192,23 +126,6 @@ function EmailValidationPage() {
     }
   };
 
-  const handleValidation = async () => {
-    // Simulate validation logic with a placeholder for your actual implementation
-    // const isValidCode = await validateCode(code);
-
-    // if (isValidCode) {
-    //   // Navigate to the main page
-    //   window.location.href = '/main';
-    // } else {
-    //   setErrorMessage('Invalid code');
-    //   setCode('');
-    //   setIsResendButtonEnabled(true);
-    // }
-  };
-
-  const handleSubmit = () => {
-
-  }
 
   const handleCloseModal  = () => {
     setShowModal(false);
@@ -266,11 +183,6 @@ function EmailValidationPage() {
         <FormContainer>
       <h1>Register</h1>
 
-      {/* <Row className="py-3">
-        <Col>
-          Already have an account? <Link to={`/login`}>Login</Link>
-        </Col>
-      </Row> */}
     <div>
       <h2>Verify your email address</h2>
       <p>We've sent a verification code to {email}</p>
@@ -279,30 +191,9 @@ function EmailValidationPage() {
       {/* <h1>React TypeScript OTP Input</h1> */}
       <OtpInput value={otp} valueLength={4} onChange={onChange} />
     </div>
-      {/* <input
-        type="text"
-        maxLength={4}
-        value={otp}
-        onChange={handleCodeChange}
-      /> */}
       
       {errorMessage && <p className="error">{errorMessage}</p>}
-      {/* <button onClick={handleVerifyOTP} disabled={otp.length !== 4}>
-        Verify
-      </button> */}
-                  {/* <BootstrapForm.Label className="mr-2">By selecting "I Accept" you agree to the&nbsp;</BootstrapForm.Label> */}
-              
-              {/* <a href="#" onClick={handleResend} disabled={!isResendButtonEnabled}>
-              Resend Code
-              </a> */}
-              {/* <BootstrapForm.Label className="mr-2">&nbsp;and the&nbsp;</BootstrapForm.Label>
-              <a href="#" onClick={handleShowPP}>
-                Privacy Policy
-              </a> */}
-      {/* <button onClick={handleChangeEmail}>Change Email Address</button> */}
-      {/* <button onClick={handleResend}>
-        Resend Code
-      </button> */}
+
             <Row className="py-3">
         <Col>
         Incorrect email address?&nbsp; <Link onClick={handleChangeEmail}>Change Email Address</Link>
@@ -313,15 +204,6 @@ function EmailValidationPage() {
         Did not receive any code?&nbsp; <Link onClick={handleResend}>Resend Code</Link>
         </Col>
       </Row>
-                        {/* <BootstrapForm.Label className="mr-2 mb-4">Incorrect email address?&nbsp;</BootstrapForm.Label>
-              <a href="#" onClick={handleChangeEmail}>
-                Change Email Address
-              </a> */}
-{/* 
-                  <BootstrapForm.Label className="mr-2">Did not receive any code?&nbsp;</BootstrapForm.Label>
-              <a href="#" onClick={handleResend}>
-                Resend Code
-              </a> */}
 
       {message && <p className="error">{message}</p>}
 
@@ -333,11 +215,6 @@ function EmailValidationPage() {
         <div className="privacy-policy">
         <h3>Change Email Address</h3>
 
-  {/* <input
-            type="email"
-            value={email}
-            onChange={(e) => setNewEmail(e.target.value)}
-          /> */}
 
 <BootstrapForm.Group className="mt-2" controlId="emailForm">
           <BootstrapForm.Label>
@@ -370,8 +247,6 @@ function EmailValidationPage() {
           <div className="error-message">Please enter a valid Email</div>
         ) : null}
 
-{/* <button onClick={() => handleModalSubmit(email)}>Save</button> */}
-          {/* <button onClick={() => setShowModal(false)}>Cancel</button> */}
 
 </div>
         </Modal.Body>
@@ -385,18 +260,6 @@ function EmailValidationPage() {
         </Modal.Footer>
       </Modal>
 
-      {/* {showModal && (
-        <div className="modal">
-          <h3>Change Email Address</h3>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button onClick={() => handleModalSubmit(email)}>Save</button>
-          <button onClick={() => setShowModal(false)}>Cancel</button>
-        </div>
-      )} */}
     </div>
 
     </FormContainer>

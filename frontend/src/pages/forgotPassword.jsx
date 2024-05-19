@@ -125,7 +125,7 @@ const EnterEmail = () => {
 
 <div className={"d-flex justify-content-end mt-3" } >
 
-<Button class variant="primary" type="submit" disabled={!isValidEmail}>
+<Button class variant="primary" type="submit" disabled={!isValidEmail} style={{backgroundColor: '#1F305E',  borderColor: '#1F305E'}}>
       Submit
     </Button>
     </div>

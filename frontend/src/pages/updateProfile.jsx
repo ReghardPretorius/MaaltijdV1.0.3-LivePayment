@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
-import {
-  Autocomplete,
-  useLoadScript,
-  GoogleMap,
-  MarkerF,
-  Polygon,
-} from "@react-google-maps/api";
-import { Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -17,31 +9,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Spinner from "react-bootstrap/Spinner";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import SouthAfricanFlagSVG from "../assets/south-africa-flag-icon.svg";
-import {
-  updateName,
-  updateSurname,
-  updateEmail,
-  updateCellNumber,
-  updatePassword,
-  updateEmailIsVerified,
-  updateNumberIsVerified,
-  updateTerms,
-} from "../slices/userInfoSlice";
-import {
-  updateAddressName,
-  updateLat,
-  updateLong,
-  updateTown,
-  updateSuburb,
-  updateStreet,
-  updateStreetNumber,
-  updatePostalCode,
-  updateUnit,
-  updateBuilding,
-  updateOptionalAddressInfo,
-} from "../slices/autocompleteSlice";
-import { Nav } from 'react-bootstrap';
-import { Form as BootstrapForm, ProgressBar , Modal, FormGroup, FormCheck  } from "react-bootstrap";
+import { Form as BootstrapForm,  Modal  } from "react-bootstrap";
 import { useCellnumberExistsForOtherUsersMutation } from "../slices/usersApiSlice";
 import { useUpdateProfileMutation } from "../slices/usersApiSlice";
 import { setCredentials } from '../slices/authSlice';
@@ -105,24 +73,9 @@ const UpdateProfile = () => {
       dispatch(logout());
       navigate('/login');
     } catch (err) {
-      //console.error(err);
     }
   };
   
-  // setName(OGname);
-  // setSurname(OGsurname);
-  // setCellNumber(OGcellNumber);
-
-  // useEffect(() => {
-  //   setName(OGname);
-  //   console.log(name);
-  //   const nameRegex = /^[A-Za-z]+$/;
-  //   const isValid = name.length >= 1 && nameRegex.test(name);
-  //   console.log(isValid);
-  //   // Update isValidName state based on name format
-  //   setIsValidName(isValid);
-  //   console.log(isValidName);
-  // }, [OGname]);
 
   useEffect(() => {
     setName(OGname);
@@ -179,7 +132,6 @@ const UpdateProfile = () => {
           setErrorUpdating(true);
         }
       } catch (err) {
-        //console.error('Error:', err); // Log the error for debugging
         setIsExistingCellNumber(false); // Set state to indicate email doesn't exist
       }
     })();
@@ -191,10 +143,7 @@ const UpdateProfile = () => {
   const handleNameChange = (e) => {
     const newName = e.target.value.replace(/\d/g, "");
     setName(newName);
-
-    // Regular expression to validate name format (only text characters)
-    const nameRegex = /^[A-Za-z]+$/;
-    const isValid = newName.length >= 1 && nameRegex.test(newName);
+    const isValid = newName.length >= 1 ;
 
     // Update isValidName state based on name format
     setIsValidName(isValid);
@@ -214,9 +163,7 @@ const UpdateProfile = () => {
     const newSurname = e.target.value.replace(/\d/g, "");
     setSurname(newSurname);
 
-    // Regular expression to validate name format (only text characters)
-    const nameRegex = /^[A-Za-z]+$/;
-    const isValid = newSurname.length >= 1 && nameRegex.test(newSurname);
+    const isValid = newSurname.length >= 1;
 
     // Update isValidName state based on name format
     setIsValidSurname(isValid);
@@ -258,7 +205,6 @@ const UpdateProfile = () => {
         dispatch(setCredentials({ ...res }));
         navigate('/');
       } catch (err) {
-        console.log('Error')
         toast.error(err?.data?.message || err.error);
       }
     } 
@@ -415,13 +361,13 @@ const UpdateProfile = () => {
     </div>
 
     <div>
-    <a href="#" onClick={handleShowTerms} style={{color: '1F305E'}}>
+    <a href="#" onClick={handleShowTerms} style={{color: '#1F305E'}}>
                 Terms of Use
               </a>
     </div>
 
     <div className="mt-1">
-    <a href="#" onClick={handleShowPP} style={{color: '1F305E'}}>
+    <a href="#" onClick={handleShowPP} style={{color: '#1F305E'}}>
                 Privacy Policy
               </a>
       </div>

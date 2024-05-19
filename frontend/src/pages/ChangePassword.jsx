@@ -213,13 +213,9 @@ const ChangePassword = ({ match }) => {
           <div className="error-message">Please enter a valid Confirm Password</div>
         ) : null}
 
-
-<div>{isEnabledSubmit ? (
-  <div>True</div>
-): (<div>False</div>)}</div>
 <div className={"d-flex justify-content-end mt-3" } >
 
-<Button class variant="primary" type="submit" >
+<Button class variant="primary" type="submit" style={{backgroundColor: '#1F305E',  borderColor: '#1F305E'}}>
       Submit
     </Button>
     </div>

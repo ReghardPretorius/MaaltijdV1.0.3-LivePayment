@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Autocomplete,
   useLoadScript,
   GoogleMap,
-  MarkerF,
-  Polygon,
+  Marker,
 } from "@react-google-maps/api";
 import { Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
@@ -14,7 +13,6 @@ import { toast } from "react-toastify";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Spinner from "react-bootstrap/Spinner";
 import Loader from '../components/Loader';
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import SouthAfricanFlagSVG from "../assets/south-africa-flag-icon.svg";
@@ -45,6 +43,7 @@ import {
 } from "../slices/autocompleteSlice";
 import { Form as BootstrapForm, ProgressBar , Modal, FormGroup, FormCheck  } from "react-bootstrap";
 import { useEmailExistsMutation, useCellnumberExistsMutation } from "../slices/usersApiSlice";
+import ScrollToTopInput from '../components/scrollToTopInput';
 
 import "../styles/Map.css";
 import "../styles/Autocomplete.css";
@@ -63,12 +62,38 @@ const options = {
   zoomControl: true,
 };
 
-const excludedBounds = [
-  { lat: -26.66253, lng: 27.07885 },
-  { lat: -26.66253, lng: 27.1244 },
-  { lat: -26.72736, lng: 27.1244 },
-  { lat: -26.72736, lng: 27.07885 },
-];
+// function AdvancedMarker({ position, icon, map }) {
+//   const markerRef = useRef(null);
+
+//   useEffect(() => {
+//     if (markerRef.current) {
+//       markerRef.current.setMap(null);
+//     }
+//     if (map) {
+//       const marker = new window.google.maps.marker.AdvancedMarkerElement({
+//         position,
+//         map: map,
+//         content: document.createElement('div'), // Customize this element as needed
+//       });
+//       markerRef.current = marker;
+//     }
+//     return () => {
+//       if (markerRef.current) {
+//         markerRef.current.setMap(null);
+//       }
+//     };
+//   }, [position, map]);
+
+//   return null;
+// }
+
+
+// const excludedBounds = [
+//   { lat: -26.66253, lng: 27.07885 },
+//   { lat: -26.66253, lng: 27.1244 },
+//   { lat: -26.72736, lng: 27.1244 },
+//   { lat: -26.72736, lng: 27.07885 },
+// ];
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
@@ -81,8 +106,6 @@ const RegisterScreen = () => {
   const [building, setBuilding] = useState("");
   const [optionalAddressInfo, setOptionalAddressInfo] = useState("");
   const [cellNumber, setCellNumber] = useState("");
-  const [placeShow, setPlaceShow] = useState("");
-
 
   const [isValidName, setIsValidName] = useState(false);
   const [isValidSurname, setIsValidSurname] = useState(false);
@@ -117,8 +140,6 @@ const RegisterScreen = () => {
 
   const [formattedAddress, setFormattedAddress] = useState("");
 
-
-  const [width, setWidth] = useState(window.innerWidth);
   const [center, setCenter] = useState({ lat: -26.7145, lng: 27.097 });
   const [zoom, setZoom] = useState(14);
   const [searchResult, setSearchResult] = useState(null);
@@ -127,6 +148,7 @@ const RegisterScreen = () => {
     // googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+  const mapRef = useRef(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -142,39 +164,48 @@ const RegisterScreen = () => {
     }
   }, [navigate, userInfo]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     (async () => {
       try {
-        const resEmailExits = await emailExists({ email }).unwrap();
-        // console.log(resEmailExits);
-        setIsExistingEmail(true); // Update state based on response
+        const response = await emailExists({ email }).unwrap();
+        if (response.message === '1') {
+          setIsExistingEmail(true); // Set state based on 201 status
+        } else {
+          setIsExistingEmail(false); // Set state for any other status
+        }
       } catch (err) {
-        //console.error('Error:', err); // Log the error for debugging
         setIsExistingEmail(false); // Set state to indicate email doesn't exist
       }
     })();
   }, [email]);
 
+
+  useEffect(() => {
+    const noSpaceCellNumber = cellNumber.replace(/\s/g, "");
+    (async () => {
+      try {
+        const response = await cellnumberExists({ noSpaceCellNumber }).unwrap();
+        if (response.message === '1') {
+          setIsExistingCellNumber(true); // Set state based on 201 status
+        } else {
+          setIsExistingCellNumber(false); // Set state for any other status
+        }
+      } catch (err) {
+        setIsExistingCellNumber(false); // Set state to indicate email doesn't exist
+      }
+    })();
+  }, [cellNumber]);
+
+
   useEffect(() => {
     if (isCheckedMarketing === true){
       setIsMarketing('1');
-      console.log(isMarketing);
+      //console.log(isMarketing);
     } else 
     if (isCheckedMarketing === false){
       setIsMarketing('0');
-      console.log(isMarketing);
+      //console.log(isMarketing);
     }
   }, [isCheckedMarketing]);
 
@@ -185,8 +216,9 @@ const RegisterScreen = () => {
     setName(newName);
 
     // Regular expression to validate name format (only text characters)
-    const nameRegex = /^[A-Za-z]+$/;
-    const isValid = newName.length >= 1 && nameRegex.test(newName);
+    //const nameRegex = /^[A-Za-z]+$/;
+    const isValid = newName.length >= 1 ;
+    //const isValid = newName.length >= 1 && nameRegex.test(newName);
 
     // Update isValidName state based on name format
     setIsValidName(isValid);
@@ -207,8 +239,9 @@ const RegisterScreen = () => {
     setSurname(newSurname);
 
     // Regular expression to validate name format (only text characters)
-    const nameRegex = /^[A-Za-z]+$/;
-    const isValid = newSurname.length >= 1 && nameRegex.test(newSurname);
+    // const nameRegex = /^[A-Za-z]+$/;
+    // const isValid = newSurname.length >= 1 && nameRegex.test(newSurname);
+    const isValid = newSurname.length >= 1 ;
 
     // Update isValidName state based on name format
     setIsValidSurname(isValid);
@@ -438,19 +471,6 @@ const RegisterScreen = () => {
     setStep(step - 1);
   };
 
-  const [passwordType, setPasswordType] = useState("password");
-  const [passwordInput, setPasswordInput] = useState("");
-  // const handlePasswordChange =(evnt)=>{
-  //     setPasswordInput(evnt.target.value);
-  // }
-  const togglePassword = () => {
-    if (passwordType === "password") {
-      setPasswordType("text");
-      return;
-    }
-    setPasswordType("password");
-  };
-
   const handleCloseTerms = () => setShowTerms(false);
   const handleShowTerms = () => setShowTerms(true);
 
@@ -488,7 +508,7 @@ const RegisterScreen = () => {
         // Clear the input text
         const inputToClear = document.querySelector("#searchInput");
         inputToClear.value = "";
-        setPlaceShow('')
+        //setPlaceShow('')
         setFormattedAddress('');
         setUnit('');
         setBuilding('');
@@ -512,7 +532,7 @@ const RegisterScreen = () => {
         setOptionalAddressInfo('');
         setIsBlurUnit(false);
         setIsValidUnit(false);
-        setPlaceShow(place.formatted_address)
+        //setPlaceShow(place.formatted_address)
         // Proceed with updating state and map as usual
         setCenter({ lat, lng });
         setZoom(16);
@@ -789,11 +809,19 @@ bounds={{
 >
 
 <BootstrapForm.Group className="my-2" controlId="searchAddress">
-  <input  type="text" name="searchAddress" placeholder="Search for a location" id="searchInput" required className="form-control"/>
+  {/* <input  type="text" name="searchAddress" placeholder="Search for a location" id="searchInput" required className="form-control"/> */}
+  <ScrollToTopInput />
   </BootstrapForm.Group>
 </Autocomplete>
-<GoogleMap mapContainerStyle={mapContainerStyle} zoom={zoom} center={center} options={options} className ="map">
-  <MarkerF position={center} icon={"http://maps.google.com/mapfiles/ms/icons/red-dot.png"} />
+<GoogleMap mapContainerStyle={mapContainerStyle} zoom={zoom} center={center} options={options} onLoad={map => (mapRef.current = map)} className ="map">
+<Marker // Use Marker instead of MarkerF
+    position={center}
+    icon={{
+      url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Set the icon URL
+    }}
+  />
+{/* <AdvancedMarker position={center} icon={"http://maps.google.com/mapfiles/ms/icons/red-dot.png"} map={mapRef.current} /> */}
+  {/* <MarkerF position={center} icon={"http://maps.google.com/mapfiles/ms/icons/red-dot.png"} /> */}
   {/* <Polygon paths={[excludedBounds]} options={{ strokeColor: "#FF0000", strokeOpacity: 0.5, strokeWeight: 2 }} /> */}
 </GoogleMap>
 {/* </div> */}

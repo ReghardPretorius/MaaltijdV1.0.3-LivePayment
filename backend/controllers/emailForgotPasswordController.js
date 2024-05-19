@@ -20,7 +20,7 @@ const sendFPOTP = async (req, res) => {
     //res.status(200).send('OTP sent successfully');
     res.status(200).json({ message: 'OTP sent successfully' });
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     //res.status(500).send('Error sending OTP');
     res.status(500).json({ message: 'Error sending OTP' });
   }

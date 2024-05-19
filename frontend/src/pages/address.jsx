@@ -4,30 +4,15 @@ import {
   useLoadScript,
   GoogleMap,
   MarkerF,
-  Polygon,
 } from "@react-google-maps/api";
-import { Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Spinner from "react-bootstrap/Spinner";
 import Loader from '../components/Loader';
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import SouthAfricanFlagSVG from "../assets/south-africa-flag-icon.svg";
-import {
-  updateName,
-  updateSurname,
-  updateEmail,
-  updateCellNumber,
-  updatePassword,
-  updateEmailIsVerified,
-  updateNumberIsVerified,
-  updateTerms,
-} from "../slices/userInfoSlice";
 import { setCredentials } from "../slices/authSlice";
 import {
   updateAddressName,
@@ -38,11 +23,8 @@ import {
   updateStreet,
   updateStreetNumber,
   updatePostalCode,
-  updateUnit,
-  updateBuilding,
-  updateOptionalAddressInfo,
 } from "../slices/autocompleteSlice";
-import { Form as BootstrapForm, ProgressBar , Modal, FormGroup, FormCheck  } from "react-bootstrap";
+import { Form as BootstrapForm } from "react-bootstrap";
 import {  useUpdateAddressMutation } from "../slices/usersApiSlice";
 
 import "../styles/Map.css";
@@ -62,20 +44,18 @@ const options = {
   zoomControl: true,
 };
 
-const excludedBounds = [
-  { lat: -26.66253, lng: 27.07885 },
-  { lat: -26.66253, lng: 27.1244 },
-  { lat: -26.72736, lng: 27.1244 },
-  { lat: -26.72736, lng: 27.07885 },
-];
+// const excludedBounds = [
+//   { lat: -26.66253, lng: 27.07885 },
+//   { lat: -26.66253, lng: 27.1244 },
+//   { lat: -26.72736, lng: 27.1244 },
+//   { lat: -26.72736, lng: 27.07885 },
+// ];
 
 const EditAddressScreen = () => {
   const [addressName, setAddressName] = useState("");
   const [unit, setUnit] = useState("");
   const [building, setBuilding] = useState("");
   const [optionalAddressInfo, setOptionalAddressInfo] = useState("");
-  const [placeShow, setPlaceShow] = useState("");
-  const [id, setId] = useState("");
   const [town, setTown] = useState("");
   const [suburb, setSuburb] = useState("");
   const [street, setStreet] = useState("");
@@ -91,7 +71,7 @@ const EditAddressScreen = () => {
   const [isBlurUnit, setIsBlurUnit] = useState(true);
   const [isBlurAddress, setIsBlurAddress] = useState(true);
 
-  const [width, setWidth] = useState(window.innerWidth);
+  // const [width, setWidth] = useState(window.innerWidth);
   //const [center, setCenter] = useState({ lat: -26.7145, lng: 27.097 });
   const [zoom, setZoom] = useState(14);
   const [searchResult, setSearchResult] = useState(null);
@@ -130,17 +110,10 @@ const EditAddressScreen = () => {
     if (!isNaN(stringLat) && !isNaN(stringLong)) {
       let latLng = { lat: parseFloat(stringLat), lng: parseFloat(stringLong) };
       setCenter(latLng); // Assuming setCenter expects a LatLng or LatLngLiteral object
-      console.log(center);
+      //console.log(center);
   }
   
-    // console.log(stringLong);
-    // let intLat = Number(stringLat);
-    // let intLong = Number(stringLong);
-    // console.log(intLong);
-    // setCenter({intLat, intLong });
     setZoom(16);
-    // console.log(center);
-    // console.log(userInfo);
   }, [userInfo]);
   
   useEffect(() => {
@@ -192,17 +165,17 @@ const EditAddressScreen = () => {
     setFormattedAddress(OGformattedAddress);
   }, [OGformattedAddress]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setWidth(window.innerWidth);
+  //   };
 
-    window.addEventListener("resize", handleResize);
+  //   window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
 
 
@@ -266,7 +239,7 @@ const EditAddressScreen = () => {
           inputToClear.classList.remove("cleared");
         }, 500); // Adjust the timeout duration as needed
       } else {
-        setPlaceShow(place.formatted_address)
+        // setPlaceShow(place.formatted_address)
         setFormattedAddress(place.formatted_address);
         setUnit('');
         setBuilding('');
@@ -380,7 +353,7 @@ bounds={{
 </Autocomplete>
 <GoogleMap mapContainerStyle={mapContainerStyle} zoom={zoom} center={center} options={options} className ="map">
   <MarkerF position={center} icon={"http://maps.google.com/mapfiles/ms/icons/red-dot.png"} />
-  <Polygon paths={[excludedBounds]} options={{ strokeColor: "#FF0000", strokeOpacity: 0.5, strokeWeight: 2 }} />
+  {/* <Polygon paths={[excludedBounds]} options={{ strokeColor: "#FF0000", strokeOpacity: 0.5, strokeWeight: 2 }} /> */}
 </GoogleMap>
 {/* </div> */}
 

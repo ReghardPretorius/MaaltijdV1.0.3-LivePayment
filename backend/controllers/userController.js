@@ -188,7 +188,8 @@ const getEmailExits = asyncHandler(async (req, res) => {
   if (userExists) {
     //const user = await User.findByEmail(email);
     res.status(201).json({
-      email: userExists.email,
+      // email: userExists.email,
+      message: '1',
     });
   } else {
     res.status(404);
@@ -202,14 +203,16 @@ const getEmailExits = asyncHandler(async (req, res) => {
 // @route   GET /api/users/cellnumberExists
 // @access  Private
 const getCellNumberExits = asyncHandler(async (req, res) => {
-  const { cellnumber } = req.body;
+  
+  const  cellnumber  = req.body.noSpaceCellNumber;
   const cellNumber = cellnumber;
   const userExists = await User.findOne({ cellNumber });
 
   if (userExists) {
     //const user = await User.findByEmail(email);
     res.status(201).json({
-      cellNumber: userExists.cellNumber,
+      // cellNumber: userExists.cellNumber,
+      message: '1',
     });
   } else {
     res.status(404);
