@@ -30,6 +30,10 @@ const sendOTP = async (req, res) => {
 
 const verifyOTP = (req, res) => {
   const { email, otp } = req.body;
+  console.log('actual otp:');
+  console.log(otpMap[email] );
+  console.log('entered otp:');
+  console.log(otp);
 
   if (otpMap[email] && otpMap[email] == otp) {
     delete otpMap[email];

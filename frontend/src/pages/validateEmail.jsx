@@ -101,30 +101,48 @@ function EmailValidationPage() {
 
 
   const handleVerifyOTP = async (email, otp ) => {
+
     try {
-
       const response = await verifyOTPMutate({ email, otp }).unwrap();
-
-      if (response.status === 200) {
+      if (response.message === 'Email verified successfully') {
         try {
           await updateEmailIsVerified("1"); 
-      
           const res = await register({ name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress, marketing }).unwrap();
-          dispatch(setCredentials({ ...res }));
-
+           dispatch(setCredentials({ ...res }));
           navigate('/');
         } catch (err) {
           setMessage('❌ Wrong OTP Please Check Again');
         }
       }
-      
-      const data = await response.json();
-      setMessage(data.message);
+      setMessage(response.message);
     } catch (error) {
-      //console.error('Error:', error);
-      setMessage('❌ Wrong OTP Please Check Again');
-    }
   };
+      setMessage('❌ Wrong OTP Please Check Again');
+    };
+//     try {
+
+//       const response = await verifyOTPMutate({ email, otp }).unwrap();
+// console.log(response);
+//       if (response.status === 200) {
+//         try {
+//           await updateEmailIsVerified("1"); 
+      
+//           const res = await register({ name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress, marketing }).unwrap();
+//           dispatch(setCredentials({ ...res }));
+
+//           navigate('/');
+//         } catch (err) {
+//           setMessage('❌ Wrong OTP Please Check Again');
+//         }
+//       }
+      
+//       const data = await response.json();
+//       setMessage(data.message);
+//     } catch (error) {
+//       //console.error('Error:', error);
+//       setMessage('❌ Wrong OTP Please Check Again');
+//     }
+ // };
 
 
   const handleCloseModal  = () => {

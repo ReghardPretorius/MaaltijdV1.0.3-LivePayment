@@ -86,6 +86,8 @@ function ValidateForgotPasswordPage() {
       //console.error('Error:', error);
       setMessage('❌ Wrong OTP Please Check Again');
     }
+
+    
   const handleResend = () => {
     if (email) {
       sendOTP(email);
