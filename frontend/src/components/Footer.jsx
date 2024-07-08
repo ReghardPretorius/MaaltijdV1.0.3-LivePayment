@@ -4,6 +4,8 @@ import { BsPersonFill, BsBagFill, BsGeoAltFill, BsHouseFill } from 'react-icons/
 import { useSelector, useDispatch } from 'react-redux';
  import { useNavigate } from 'react-router-dom';
 
+ import "../styles/footer.css";
+
 //import { cartUiActions } from "../../store/shopping-cart/cartUiSlice";
 
 function BottomNavbar() {
@@ -23,15 +25,16 @@ function BottomNavbar() {
 <div>
     {userInfo ? (
       <>
-      <Navbar fixed="bottom" bg="light" variant="light" style={{height: '60px'}}>
+      <Navbar className='footercomponent' fixed="bottom" bg="light" variant="light" style={{height: '60px', backgroundColor:'#DCDCDC !important'}}>
       <Nav className="mx-auto">
       <Nav.Link href="/">
           <BsHouseFill size={24} />
-          <span className="d-sm-none">Home</span>
+          {/* <span className="d-sm-none">Home</span> */}
+          <span>Home</span>
         </Nav.Link>
-        <Nav.Link href="/updateprofile">
+        <Nav.Link href="/user">
           <BsPersonFill size={24} />
-          <span className="d-sm-none">Profile</span>
+          <span>Profile</span>
         </Nav.Link>
         <Nav.Link href="/cart">
           <BsBagFill size={24} />
@@ -42,11 +45,11 @@ function BottomNavbar() {
               <span className="cart__badge">{totalQuantity}</span>
             </span>
             ) :
-            (<span className="d-sm-none">Cart</span>)}
+            (<span>Cart</span>)}
         </Nav.Link>
         <Nav.Link href="/address">
           <BsGeoAltFill size={24} />
-          <span className="d-sm-none">Address</span>
+          <span>Address</span>
         </Nav.Link>
       </Nav>
     </Navbar>

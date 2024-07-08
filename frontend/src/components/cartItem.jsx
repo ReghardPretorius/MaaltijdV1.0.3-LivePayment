@@ -42,28 +42,23 @@ const CartItem = ({ item, onClose }) => {
 //   }
 
   return (
-    <ListGroupItem className="border-0 cart__item" >
+    <ListGroupItem className="border-0 cart__item carditem" >
       <div className="cart__item-info d-flex gap-4">
         <img src={image01} alt="product-img" />
 
         <div className="cart__product-info w-100 d-flex align-items-center gap-4 justify-content-between">
           <div>
             <h6 className="cart__product-title">{title}</h6>
-            <p className=" d-flex align-items-center gap-5 cart__product-price">
+            <p className=" d-flex align-items-center gap-3 justify-content-between cart__product-price">
               {quantity}x <span>R {price}</span>
+              <span className="total_amount m-0">
+                      Total: R {quantity*price}
+                    </span>
             </p>
             <div className="d-flex flex-column">
-            {
-              extraIngredients !== undefined && (
-                Array.from(extraIngredients).map(value => {
-                  return(
-                    <span key={value} className="m-0">
-                      {value}
-                    </span>
-                  )
-                })
-                )
-              }
+
+
+
               </div>
             <div className=" d-flex align-items-center justify-content-between increase__decrease-btn">
               <span className="increase__btn" onClick={event => incrementItem(event)}>

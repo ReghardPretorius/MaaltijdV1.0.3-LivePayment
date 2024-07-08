@@ -30,6 +30,7 @@ import {  useUpdateAddressMutation } from "../slices/usersApiSlice";
 import "../styles/Map.css";
 import "../styles/Autocomplete.css";
 import "../styles/Register.css";
+import "../styles/address.css"
 
 
 const libraries = ["places"];
@@ -325,7 +326,7 @@ const EditAddressScreen = () => {
     );
 
   return (
-
+<div className="addresslayout">
 <div style={{paddingTop: '10px', paddingBottom:'60px'}}>
     <FormContainer >
 
@@ -465,6 +466,7 @@ bounds={{
       </BootstrapForm>
 
     </FormContainer>
+    </div>
     </div>
 
   );

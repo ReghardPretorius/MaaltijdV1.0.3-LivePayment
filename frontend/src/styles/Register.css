@@ -13,3 +13,11 @@
     color: red;
     font-size: 0.9em;
   }
+
+  .register-container{
+    padding-top: 100px;
+    position: relative;
+    z-index: 1; /* Ensure this is above the background */
+    padding-left: 15px;
+    padding-right: 15px;
+  }

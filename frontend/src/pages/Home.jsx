@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
  //import { useNavigate } from 'react-router-dom';
 
  import "../styles/home.css";
+ import "../styles/background.css";
   
 
 const HomeScreen = () => {
@@ -24,10 +25,18 @@ const HomeScreen = () => {
     visitedPage + productPerPage
   );
   return (
-<div className='homelayout'>
+<div className={` ${!userInfo ? 'hero-background' : ''}`}>
     {userInfo ? (
-      <>
+      <div className="homelayout">
       <Container >
+        <Row class='pl-1 pr-1 '>
+          <div class="rowitem">
+        <div class="home_card">
+        {/* <div class="card-title">Special Offer!</div> */}
+        <div class="card-content">Get Free Delivery when you order 3 or more items</div>
+    </div>
+    </div>
+        </Row>
         <Row>
           {displayPage.map((item) => (
             <Col
@@ -43,11 +52,11 @@ const HomeScreen = () => {
           ))}
         </Row>
       </Container>
-    </>
+    </div>
     ) : (
-      <>
+      <div className='welcomebanner'>
       <Hero />
-      </>
+      </div>
     )}
 </div>
   );

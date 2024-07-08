@@ -3,6 +3,8 @@ import authReducer from '../slices/authSlice';
 import autocompleteReducer from '../slices/autocompleteSlice';
 import userInfoReducer from '../slices/userInfoSlice';
 import cartSlice from '../slices/cartSlice';
+import orderReducer from '../slices/orderSlice';
+import paymentReducer from '../slices/paymentSlice';
 import { apiSlice } from '../slices/apiSlice';
 
 const store = configureStore({
@@ -12,6 +14,8 @@ const store = configureStore({
     auth: authReducer,
     userAutocomplete: autocompleteReducer,
     userInfo: userInfoReducer,
+    payment: paymentReducer,
+    order: orderReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

@@ -56,17 +56,21 @@ const cartSlice = createSlice({
       } else if(existingItem && (JSON.stringify(existingItem.extraIngredients) === JSON.stringify(extraIngredients)))  {
         state.totalQuantity++;
         existingItem.quantity++;
+        console.log(`existingItem.totalPrice: ${existingItem.totalPrice}`);
+        console.log(`newItem.price: ${newItem.price}`);
+        existingItem.totalPrice =  existingItem.totalPrice + newItem.price; 
       } else {
 
         const value = JSON.parse(localStorage.getItem("cartItems"));
         let index = value.findIndex(s => s.id === existingItem.id);
+        //console.log(`existingItem.totalPrice: ${existingItem.totalPrice}`);
         const newValue = {
         id: existingItem.id,
         title: existingItem.title,
         image01: existingItem.image01,
         price: existingItem.price,
         quantity: 1,
-        totalPrice: existingItem.price,
+        totalPrice: existingItem.totalPrice,
         extraIngredients: extraIngredients
       }
         state.cartItems.splice(index, 1, newValue); 
@@ -80,6 +84,10 @@ const cartSlice = createSlice({
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
       );
+
+      if (state.totalQuantity  < 3 && state.totalQuantity > 0){
+        state.totalAmount = state.totalAmount + 20;
+      };
 
 
       setItemFunc(
@@ -111,6 +119,10 @@ const cartSlice = createSlice({
         0
       );
 
+      if (state.totalQuantity  < 3 && state.totalQuantity > 0){
+        state.totalAmount = state.totalAmount + 20;
+      };
+
       setItemFunc(
         state.cartItems.map((item) => item),
         state.totalAmount,
@@ -133,6 +145,11 @@ const cartSlice = createSlice({
         (total, item) => total + Number(item.price) * Number(item.quantity),
         0
       );
+
+      if (state.totalQuantity  < 3 && state.totalQuantity > 0){
+        state.totalAmount = state.totalAmount + 20;
+      };
+
       setItemFunc(
         state.cartItems.map((item) => item),
         state.totalAmount,

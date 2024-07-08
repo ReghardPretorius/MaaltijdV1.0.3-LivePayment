@@ -48,6 +48,7 @@ import ScrollToTopInput from '../components/scrollToTopInput';
 import "../styles/Map.css";
 import "../styles/Autocomplete.css";
 import "../styles/Register.css";
+import "../styles/background.css";
 
 
 const libraries = ["places"];
@@ -621,7 +622,7 @@ const RegisterScreen = () => {
   return (
 
 <div className="py-2">
-    <FormContainer>
+    <FormContainer >
 
 {step === 1 && (
         <div>
@@ -1261,6 +1262,8 @@ bounds={{
 
     </FormContainer>
     </div>
+    // </div>
+    // </div>
 
   );
 };

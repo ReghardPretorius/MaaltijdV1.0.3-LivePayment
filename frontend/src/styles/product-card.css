@@ -8,6 +8,7 @@
     border-radius: 8px;
     /* background-color: #212245; */
     background-color: #000D29 ;
+    box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.1);
     /* background-color:#000D29; */
   }
   
@@ -80,4 +81,6 @@
     font-size: 1rem;
   }
 }
+
+
   

@@ -25,15 +25,18 @@ import UpdateProfile from './pages/updateProfile.jsx';
 import EditAddressScreen from './pages/address.jsx';
 import Cart from './pages/cart.jsx';
 import Checkout from './pages/checkout.jsx';
-import Pay from './pages/pay.jsx';
+//import Pay from './pages/pay.jsx';
+import Payment from './pages/payment.jsx';
+import PostPay from './pages/postPayment.jsx';
+import UserProfilePage from './pages/user.jsx';
+import OrdersList from './pages/orders.jsx';
+import OrderDetails from './pages/orderDetails.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index={true} path='/' element={<HomeScreen />} />
       <Route path='/validate' element={<EmailValidationPage />} />
-      <Route path='/updateprofile' element={<UpdateProfile />} />
-      <Route path='/address' element={<EditAddressScreen />} />
       <Route path='/otp' element={<OtpInputWithValidation  numberOfDigits={4}/>} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
@@ -42,9 +45,15 @@ const router = createBrowserRouter(
       <Route path='/forgotpassword/changepassword' element={<ChangePassword />} />
       <Route path='/mail' element={<EmailVerification />} />
       <Route path='' element={<PrivateRoute />}>
-      <Route path='/cart' element={<Cart />} />
-      <Route path='/pay' element={<Pay />} />
-      <Route path='/checkout' element={<Checkout />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='/payment' element={<Payment />} />
+        <Route path='/checkout' element={<Checkout />} />
+        <Route path='/postpayment' element={<PostPay />} />
+        <Route path='/user/updateprofile' element={<UpdateProfile />} />
+        <Route path='/address' element={<EditAddressScreen />} />
+        <Route path='/user' element={<UserProfilePage />} />
+        <Route path='/user/orders' element={<OrdersList />} />
+        <Route path='/user/orders/:orderId' element={<OrderDetails />} />
       </Route>
     </Route>
   )

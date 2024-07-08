@@ -8,8 +8,12 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
 import emailRoutes from './routes/emailRoutes.js';
 import emailFPRoutes from './routes/emailForgotPassword.js';
+import orderRoutes from './routes/orderRoutes.js';
+import emailOrderRoutes from './routes/emailOrderRoutes.js';
 import cors from 'cors';
 import { log } from 'console';
+import checkoutRoutes  from "./routes/checkoutRoutes.js";
+import bodyParser from 'body-parser';
 
 const port = process.env.PORT || 5000;
 
@@ -29,7 +33,12 @@ app.use(cookieParser());
 // Routes
 app.use('/change/email', emailFPRoutes);
 app.use('/email', emailRoutes); // Base path for email-related routes
+app.use('/email/order', emailOrderRoutes);
 app.use('/api/users', userRoutes);
+app.use('/order', orderRoutes);
+
+app.use(bodyParser.json());
+app.use("/api", checkoutRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   //console.log('Production');

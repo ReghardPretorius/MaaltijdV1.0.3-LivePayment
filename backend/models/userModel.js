@@ -89,6 +89,10 @@ const userSchema = mongoose.Schema(
         type: String,
         required: true,
       },
+      wallet: {
+        type: Number,
+        required: false,
+      },
       
   },
   {
