@@ -111,7 +111,7 @@ const EditAddressScreen = () => {
     if (!isNaN(stringLat) && !isNaN(stringLong)) {
       let latLng = { lat: parseFloat(stringLat), lng: parseFloat(stringLong) };
       setCenter(latLng); // Assuming setCenter expects a LatLng or LatLngLiteral object
-      //console.log(center);
+
   }
   
     setZoom(16);
@@ -208,12 +208,8 @@ const EditAddressScreen = () => {
     if (searchResult != null) {
       const place = searchResult.getPlace();
       const geometry = place.geometry.location;
-      // console.log(geometry); 
       const lat = geometry.lat();
       const lng = geometry.lng();
-      // console.log(lat.type);
-
-      // console.log(place.address_components);
       // Check if coordinates fall within specified bounds
       if (
         lat > -26.66253 ||
@@ -249,7 +245,6 @@ const EditAddressScreen = () => {
         setIsValidUnit(false);
         // Proceed with updating state and map as usual
         setCenter({ lat, lng });
-        // console.log(center);
         setZoom(16);
         // ... your existing code to update state and dispatch actions ...
         // Loop through address_components to extract specific information
@@ -302,15 +297,12 @@ const EditAddressScreen = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log('Submit Clicked');
     if (isValidAddress && isValidUnit){
-      // console.log("updating");
       try {
         const res = await updateAddress({ _id, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate('/');
       } catch (err) {
-        // console.log('Error')
         toast.error(err?.data?.message || err.error);
       }
     } 

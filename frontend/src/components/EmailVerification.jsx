@@ -17,7 +17,7 @@ const EmailVerification = () => {
       
       const data = await response.json();
       //const data = JSON.parse(data1);
-      // console.log(data.message);
+
       // setMessage(data.message);
     } catch (error) {
       //console.error('Error:', error);
@@ -37,7 +37,6 @@ const EmailVerification = () => {
       });
       
       const data = await response.json();
-      // console.log(data.message);
       // setMessage(data.message);
     } catch (error) {
       //console.error('Error:', error);

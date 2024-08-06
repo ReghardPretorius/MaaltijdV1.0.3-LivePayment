@@ -47,14 +47,11 @@ const PreCheckout = () => {
 
   const checkNotification = () => {
     const lastShownDate = localStorage.getItem("notificationDate");
-    console.log(lastShownDate);
     const today = new Date().toISOString().split('T')[0];
-    console.log(today);
     
     if (lastShownDate !== today) {
       localStorage.setItem("notificationDate", today);
       setShowNotification(true);
-      console.log(showNotification);
     }
   };
 
@@ -84,7 +81,6 @@ const PreCheckout = () => {
 
 
       setRemainingHeight(windowHeight - 130 - 70 - 10  - 5  - deliveryHeight - detailsHeight);
-      console.log(`Header Height: ${deliveryHeight}, Details Height: ${detailsHeight}, Window Height: ${windowHeight}`);
     };
 
     setTimeout(updateHeight, 2000);
@@ -280,7 +276,6 @@ const PreCheckout = () => {
         const ndd = new Intl.DateTimeFormat('en-za', options2).format(date2h);
         dispatch(updateDeliveryDay(ndd));
       }
-      console.log(nextDeliveryDate);
 
     navigate('/checkout');
   };

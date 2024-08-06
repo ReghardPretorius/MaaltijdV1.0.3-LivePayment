@@ -89,12 +89,9 @@ const [estDeliveryDate, setEstDeliveryDate] = useState('');
         const fetchPaymentStatusUrl = async () => {
           const data = await checkoutStatusApi({ merchantTransactionId, bearerToken  }).unwrap();
           const code = data.statusCode;
-          console.log(data.statusCode)
           
           //setCheckoutId(data.checkout_Id); // Assuming API returns checkoutId
           //setApiKey(data.entityId); // Assuming API returns key
-          //console.log(data.checkout_Id);
-          //console.log(data.entityId);
           if (successCodes.includes(code)) {
             setStatus('Successful');
 
@@ -119,7 +116,6 @@ const [estDeliveryDate, setEstDeliveryDate] = useState('');
               const shortAddress = order1[0].shortAddress;
               const deliveryFee = order1[0].deliveryFee;
               const status = 'Order Placed';
-              console.log(order1);
 
               
               const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };

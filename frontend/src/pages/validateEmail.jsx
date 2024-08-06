@@ -79,9 +79,9 @@ function EmailValidationPage() {
   }, [email]);
 
   useEffect(() => {
-    // console.log(otp); 
+
     if (otp.replace(/\s/g, '').length === 4) {
-      // console.log('run verify');
+
       handleVerifyOTP(email, otp);
     }
   }, [otp]);
@@ -120,30 +120,7 @@ function EmailValidationPage() {
   };
       setMessage('❌ Wrong OTP Please Check Again');
     };
-//     try {
 
-//       const response = await verifyOTPMutate({ email, otp }).unwrap();
-// console.log(response);
-//       if (response.status === 200) {
-//         try {
-//           await updateEmailIsVerified("1"); 
-      
-//           const res = await register({ name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress, marketing }).unwrap();
-//           dispatch(setCredentials({ ...res }));
-
-//           navigate('/');
-//         } catch (err) {
-//           setMessage('❌ Wrong OTP Please Check Again');
-//         }
-//       }
-      
-//       const data = await response.json();
-//       setMessage(data.message);
-//     } catch (error) {
-//       //console.error('Error:', error);
-//       setMessage('❌ Wrong OTP Please Check Again');
-//     }
- // };
 
 
   const handleCloseModal  = () => {

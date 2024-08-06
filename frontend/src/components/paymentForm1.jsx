@@ -15,7 +15,7 @@ const PaymentForm = ({ checkoutId, apiKey }) => {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://sandbox-checkout.peachpayments.com/js/checkout.js";
+    script.src = "https://checkout.peachpayments.com/js/checkout.js";
     script.async = true;
     script.onload = () => {
       const Checkout = window.Checkout;
@@ -33,7 +33,13 @@ const PaymentForm = ({ checkoutId, apiKey }) => {
                 },
               },
         ordering: {
-          CARD: 1
+          CARD: 1,
+          CAPITECPAY: 2,
+          SCANTOPAY: 3,
+          PAYBYBANK: 4,
+          MASTERPASS: 5,
+          EFTSECURE: 6,
+
           // MASTERPASS: 2,
           // CAPITECPAY: 3,
           // EFTSECURE: 4,
@@ -43,17 +49,17 @@ const PaymentForm = ({ checkoutId, apiKey }) => {
   
           events: {
             onCompleted: (event) => {
-              console.log(event);
+             
               checkout.unmount();
               document.getElementById("payment-form").innerText = "Paid!";
             },
             onCancelled: (event) => {
-              console.log(event);
+             
               checkout.unmount();
               document.getElementById("payment-form").innerText = "Cancelled!";
             },
             onExpired: (event) => {
-              console.log(event);
+              
               checkout.unmount();
               document.getElementById("payment-form").innerText = "Expired!";
             },
@@ -116,7 +122,6 @@ const PaymentScreen = () => {
 
   
         setRemainingHeight(windowHeight - 130 - 30 - headerHeight );
-        //console.log(`Header Height: ${headerHeight}, Details Height: ${detailsHeight}, Window Height: ${windowHeight}`);
       };
   
       // Initial calculation
@@ -141,7 +146,7 @@ const PaymentScreen = () => {
     
     const [merchantInvoiceId, setMerchantInvoiceId] = useState("");
     //const merchantInvoiceId = 'INV0000008';
-    //console.log(givenName);
+
 
   const [url, setUrl] = useState("");
   const [checkoutId, setCheckoutId] = useState("");
@@ -160,40 +165,18 @@ const PaymentScreen = () => {
 
   useEffect(() => {
     const fetchPaymentUrl = async () => {
-    //   const response = await fetch(yourApi, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       basket: [
-    //         {
-    //           id: "item-1",
-    //           quantity: 1,
-    //         },
-    //       ],
-    //     }),
-    //   });
-
-    //   if (!response.ok) {
-    //     console.log("Error");
-    //     return;
-    //   }
-    //console.log(amount);
 
       //const data = await checkoutApi(amount, givenName, surname, mobile , email, merchantCustomerId, street1, city, country ,state, postcode , merchantInvoiceId).unwrap();
       //const data = await response.json();
-      console.log(merchantInvoiceId);
       const data = await checkoutApi({amount, givenName, surname, mobile , email, merchantCustomerId, street1, city, country ,state, postcode , merchantInvoiceId}).unwrap();
-      console.log(data)
       setUrl(data.url);
       setCheckoutId(data.checkout_Id); // Assuming API returns checkoutId
       setApiKey(data.entityId); // Assuming API returns key
       setBearerToken(data.bearerToken);
-      //console.log(data.bearerToken);
+
       dispatch(updateCheckoutId(checkoutId));
       dispatch(updateBearerToken(bearerToken));
-      //console.log(data.entityId);
+
     };
 
     const createOrderNumber = async () => {
@@ -208,21 +191,16 @@ const PaymentScreen = () => {
           deliveryFee = '20';
       }
         const orderIDraw = await createOrder({userID}).unwrap();
-        console.log(orderIDraw);
         const order = orderIDraw;
 
-        //console.log(freeDelivery);
+
         const updatedOrderId = await updateOrder({order, totalPrice, totalQuantity, deliveryLat, deliveryLong, deliveryAddress, typesOfItems, freeDelivery, deliveryDate, shortAddress, deliveryFee}).unwrap();
         const orderID = orderIDraw._id;
         const merchantTransactionId = orderIDraw.merchantTransactionId;
         const merchantInvoiceId = orderIDraw.merchantTransactionId;
         dispatch(updateMerchantTransactionId(merchantTransactionId));
         //setIsLoadingMerchantID(false);
-        //console.log(updatedOrderId);
-        //console.log(orderID);
-        //console.log(cartItems);
-        console.log(merchantTransactionId);
-        console.log(merchantInvoiceId);
+
         for (let i = 0; i < cartItems.length; i++) {
           let orderItemCode = cartItems[i].id;
           let orderItemPrice = cartItems[i].price;
@@ -231,21 +209,17 @@ const PaymentScreen = () => {
           let orderTotalPrice = cartItems[i].totalPrice;
           
 
-          //console.log(`i:${i}`);
-          //console.log(`Title :${orderItemName}`);
           const orderItemID = await createOrderItem({orderID, userID, orderItemCode, orderItemName, quantity, orderTotalPrice, orderItemPrice, deliveryDate, merchantTransactionId    }).unwrap();
-          //console.log(orderItemID);
-          //console.log(merchantInvoiceId);
+
 
         }
 
         const data = await checkoutApi({amount, givenName, surname, mobile , email, merchantCustomerId, street1, city, country ,state, postcode , merchantInvoiceId}).unwrap();
-        console.log(data)
         setUrl(data.url);
         setCheckoutId(data.checkout_Id); // Assuming API returns checkoutId
         setApiKey(data.entityId); // Assuming API returns key
         setBearerToken(data.bearerToken);
-        //console.log(data.bearerToken);
+
         dispatch(updateCheckoutId(checkoutId));
         dispatch(updateBearerToken(bearerToken));
        // const order = await updateOrder({}).unwrap();
@@ -257,7 +231,7 @@ const PaymentScreen = () => {
 
 
   //   function checkLoadingStatus() {
-  //     console.log('ping');
+
   //     if (!isLoadingMerchantID) {
         
   //         fetchPaymentUrl();
@@ -291,7 +265,7 @@ const PaymentScreen = () => {
 </div>
 </div>
     </div>
-    <div style={{  flexDirection: "column", alignItems: "center", height: remainingHeight,  overflowY: "auto" }}>
+    <div style={{  flexDirection: "column", alignItems: "center", height: remainingHeight,  overflowY: "auto", paddingBottom: "60px" }}>
       {/* <iframe src={url} title="Payment" style={{ width: "100%", height: "50%", border: "none" }} /> */}
       {checkoutId && apiKey && <PaymentForm checkoutId={checkoutId} apiKey={apiKey}/>}
     </div>

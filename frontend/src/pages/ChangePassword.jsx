@@ -102,15 +102,11 @@ const ChangePassword = ({ match }) => {
   const handleSubmit = async (e) => {
     if (isValidPassword && isValidConfirmPassword){
       e.preventDefault();
-      // console.log(_id);
-      // console.log(email);
-      // console.log(password);
       try {
         const res = await updatePassword({ _id, email, password }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate('/');
       } catch (err) {
-        console.log('Error')
         //toast.error(err?.data?.message || err.error);
       }
     } else {
@@ -133,7 +129,7 @@ const ChangePassword = ({ match }) => {
 
       <BootstrapForm onSubmit={handleSubmit}>
 
-<p class="password-policy" aria-live="polite">
+<p className="password-policy" aria-live="polite">
 <span className="strong">Password requirements:</span>
 <ul>
 <li>At least 8 characters long</li>
@@ -215,7 +211,7 @@ const ChangePassword = ({ match }) => {
 
 <div className={"d-flex justify-content-end mt-3" } >
 
-<Button class variant="primary" type="submit" style={{backgroundColor: '#1F305E',  borderColor: '#1F305E'}}>
+<Button  variant="primary" type="submit" style={{backgroundColor: '#1F305E',  borderColor: '#1F305E'}}>
       Submit
     </Button>
     </div>

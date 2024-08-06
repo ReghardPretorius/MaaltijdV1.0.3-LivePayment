@@ -58,7 +58,6 @@ const OrderDetails = () => {
 
     
           setRemainingHeight(windowHeight - 130 - 30 - headerHeight - detailsHeight);
-          console.log(`Header Height: ${headerHeight}, Details Height: ${detailsHeight}, Window Height: ${windowHeight}`);
         };
     
         // Initial calculation
@@ -79,17 +78,14 @@ const OrderDetails = () => {
             try {
                 const order = await getPaidOrder({ orderID, userID }).unwrap();
                 if (order) {
-                    console.log('valid');
                     setValidOrder(true);
                 }
                 //const order = await getPaidOrder({ orderID, userID });
-                //console.log(order[0].status);
                 // if (order.status === 200){
                 //   setValidOrder(true);
                 // } else {
 
                 // }
-                console.log(order.timestamp);
                 let orderDate = new Date(order.timestamp);
                 let orderDateFormatted = orderDate.toLocaleDateString('en-ZA', options);
                 let deliveryDate = new Date(order.deliveryDate);
@@ -104,7 +100,6 @@ const OrderDetails = () => {
                 setOrderTotalQuantity(order.totalQuantity);
                 setShortAddress(order.shortAddress);
                 setOrderDate(orderDateFormatted);
-                console.log(order);
 
             } catch (error) {
                 console.error("Failed to fetch order:", error);

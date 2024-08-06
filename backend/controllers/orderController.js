@@ -18,9 +18,7 @@ const createInitialOrder = asyncHandler(async (req, res) => {
   const { userID } = req.body;
 
   // const counter = await OrderCounter.findById('invoiceNumber');
-  // console.log(counter)
   // if (!counter) {
-  //   console.log('create initial invoice nr');
   //   await new OrderCounter({ _id: 'invoiceNumber', seq: 0 }).save();
   // }
 
@@ -43,7 +41,7 @@ const createInitialOrder = asyncHandler(async (req, res) => {
   const seq = await getNextSequenceValue('invoiceNumber');
   const invoiceNumber = formatInvoiceNumber(seq);
   const merchantTransactionId = invoiceNumber;
-  //console.log(merchantTransactionId);
+
 
   const order = await Order.create({
     userID,
@@ -66,9 +64,7 @@ const createInitialOrder = asyncHandler(async (req, res) => {
 // @access  Private
 const updateOrder = asyncHandler(async (req, res) => {
 
-    console.log(req);
     const order = await Order.findById(req.body.order._id);
-  console.log('ping1');
     if (order) {
 
       // let dateUTC;
@@ -77,7 +73,6 @@ const updateOrder = asyncHandler(async (req, res) => {
       // }
       // const localizedDate = moment.utc(dateUTC).local().format('YYYY-MM-DD HH:mm:ss');
       
-      // console.log(localizedDate);
 
 
 
@@ -103,8 +98,6 @@ const updateOrder = asyncHandler(async (req, res) => {
   
   
       const updatedOrder = await order.save();
-      console.log(updatedOrder);
-      console.log('ping');
   
       res.json({
         _id: updatedOrder._id,
@@ -120,7 +113,6 @@ const updateOrder = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const createOrderItem = asyncHandler(async (req, res) => {
-  console.log('create paid order')
     //const { name, email, password } = req.body;
     const { orderID, userID, orderItemCode, orderItemName, quantity, orderItemPrice, orderTotalPrice, deliveryDate, merchantTransactionId } = req.body;
     //const deliveryDate = new Date(deliveryDate1 + 'T00:00:00.000Z');
@@ -152,7 +144,6 @@ const createOrderItem = asyncHandler(async (req, res) => {
 // @access  Public
 const createPaidOrder = asyncHandler(async (req, res) => {
   //const { name, email, password } = req.body;
-  //console.log(req.body);
   const { userID, totalPrice, deliveryLat, deliveryLong , deliveryAddress, freeDelivery, totalQuantity, typesOfItems, deliveryDate, shortAddress , status, OGOrderID, merchantTransactionId, deliveryFee  } = req.body;
  const numberOfFailedDeliveryAttempts = 0;
  const rescheduled = "No";
@@ -223,7 +214,6 @@ const getOrderItems = asyncHandler(async (req, res) => {
 
   // Efficiently retrieve orders using query with filtering by userID:
   const orderItems = await OrderItem.find({ orderID });
-  // console.log(orderItems);
   if (orderItems) {
     res.status(200).json(orderItems);
   } else {
@@ -238,7 +228,6 @@ const getOrderItems = asyncHandler(async (req, res) => {
 const getOrderDetails = asyncHandler(async (req, res) => {
   const { orderID } = req.body; // Assuming user ID is passed in the route parameters
   const _id = orderID;
-  //console.log(_id);
   // Input validation (optional but recommended):
   if (!_id) {
     return res.status(400).json({ message: 'Missing required parameter: orderID' });
@@ -246,7 +235,6 @@ const getOrderDetails = asyncHandler(async (req, res) => {
 
   // Efficiently retrieve orders using query with filtering by userID:
   const order = await Order.find({ _id });
-  //console.log(order);
   if (order) {
     res.status(200).json(order);
   } else {
@@ -261,7 +249,6 @@ const getOrderDetails = asyncHandler(async (req, res) => {
 const getPaidOrderDetails = asyncHandler(async (req, res) => {
   const { orderID, userID } = req.body; // Assuming user ID is passed in the route parameters
   const OGOrderID = orderID;
-  //console.log(_id);
   // Input validation (optional but recommended):
   if (!OGOrderID) {
     return res.status(400).json({ message: 'Missing required parameter: orderID' });
@@ -269,9 +256,6 @@ const getPaidOrderDetails = asyncHandler(async (req, res) => {
 
   // Efficiently retrieve orders using query with filtering by userID:
   const order = await PaidOrder.findOne({ OGOrderID });
-  //console.log(order);
-  console.log(userID);
-  console.log(order.userID);
   if (order.userID === userID) {
     res.status(200).json(order);
   } else {
@@ -287,8 +271,6 @@ const createStatusLog = asyncHandler(async (req, res) => {
   //const { name, email, password } = req.body;
   const { OGOrderID, userID, merchantTransactionId,status, orderPlacedTimestamp } = req.body;
   //const deliveryDate = new Date(deliveryDate1 + 'T00:00:00.000Z');
-  console.log(orderPlacedTimestamp);
-  console.log('Ping timestamp');
   const currentStatus = status;
   const orderstatus = await orderStatus.create({
     OGOrderID,

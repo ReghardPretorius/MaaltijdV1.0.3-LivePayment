@@ -23,14 +23,10 @@ export const getAccessToken = async () => {
 
 
   const data = await response.json();
-  // console.log("token:");
-  // console.log(data.access_token);
   return data.access_token;
 };
 
 export const getCheckoutId = async (bearerToken, allowlistedDomain, checkoutEndpoint, amount, givenName, surname, mobile , email, merchantCustomerId, street1, city, country ,state, postcode , merchantInvoiceId) => {
-  //console.log(bearerToken);
-  //console.log('checkout id');
   const headers = {
     'Origin': allowlistedDomain,
     'Referer': allowlistedDomain,
@@ -84,17 +80,13 @@ export const getCheckoutId = async (bearerToken, allowlistedDomain, checkoutEndp
     body,
   });
 
-  //console.log(response);
   const data = await response.json();
-  //console.log(data);
-  //console.log("checkoutId");
-  //console.log(data.checkoutId);
-  //console.log(data);
+
   return data.checkoutId;
 };
 
 export const getCheckoutStatus = async (merchantTransactionId, signature, bearerToken) => {
-  //console.log(merchantTransactionId);
+
 
   const headers = {
     'Origin': process.env.DOMAIN,
@@ -102,7 +94,7 @@ export const getCheckoutStatus = async (merchantTransactionId, signature, bearer
     'Content-Type': 'application/json',
   };
 
-  var path = `https://testsecure.peachpayments.com/status?authentication.entityId=${process.env.ENTITY_ID}&merchantTransactionId=${merchantTransactionId}&signature=${signature}`;
+  var path = `https://secure.peachpayments.com/status?authentication.entityId=${process.env.ENTITY_ID}&merchantTransactionId=${merchantTransactionId}&signature=${signature}`;
   //var path = 'https://testsecure.peachpayments.com/status?authentication.entityId=8ac7a4ca8f9f6a2b018fa014509d0208&merchantTransactionId=Test1&signature=c151fd1320716c13fa4b30ae7e98cd854f8a78602ee07167829d9971d4839c03';
   //var path = 'https://testsecure.peachpayments.com/status?authentication.entityId=8ac7a4ca8f9f6a2b018fa014509d0208&merchantTransactionId=Test1&signature=c151fd1320716c13fa4b30ae7e98cd854f8a78602ee07167829d9971d4839c03';
 
@@ -114,7 +106,6 @@ export const getCheckoutStatus = async (merchantTransactionId, signature, bearer
   });
   const data = await response.json();
   const result = data['result.code'];
-  //console.log(result);
   return result;
 
   //return data.
@@ -130,7 +121,6 @@ export const getCheckoutStatus = async (merchantTransactionId, signature, bearer
 // fetch(`${url}?${params.toString()}`)
 //     .then(response => response.json())
 //     .then(data => {
-//         console.log('Response data:', data);
 //     })
 //     .catch(error => {
 //         console.error('Error:', error);
@@ -169,7 +159,6 @@ export const getCheckoutStatus = async (merchantTransactionId, signature, bearer
 // 			});
 // 			res.on('end', () => {
 // 				const jsonString = Buffer.concat(buf).toString('utf8');
-//         console.log(jsonString);
 // 				try {
 // 					resolve(JSON.parse(jsonString));
 // 				} catch (error) {
@@ -182,7 +171,6 @@ export const getCheckoutStatus = async (merchantTransactionId, signature, bearer
 // 	});
 // };
 
-// request().then(console.log).catch(console.error);
 
 
 
@@ -234,5 +222,5 @@ export const getCheckoutStatus = async (merchantTransactionId, signature, bearer
 // request(options, function (error, response, body) {
 //   if (error) throw new Error(error);
 
-//   console.log(body);
+
 // });

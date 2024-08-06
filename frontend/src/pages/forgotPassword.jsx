@@ -64,8 +64,6 @@ const EnterEmail = () => {
       // });
       try{ 
       const res = await findEmail({ email }).unwrap();
-      // console.log(res);
-      // console.log('success');
       dispatch(updateUserid(res._id));
       dispatch(updateEmail(res.email));
       navigate("/validatefp");
@@ -73,8 +71,6 @@ const EnterEmail = () => {
       //toast.success('Profile updated successfully');
     }  catch (err) {
       //toast.error(err?.data?.message || err.error);
-      // console.log(err);
-      // console.log('failed');
       setEmailDoesNotExist(true);
       //setEmail('');
     };
@@ -125,7 +121,7 @@ const EnterEmail = () => {
 
 <div className={"d-flex justify-content-end mt-3" } >
 
-<Button class variant="primary" type="submit" disabled={!isValidEmail} style={{backgroundColor: '#1F305E',  borderColor: '#1F305E'}}>
+<Button variant="primary" type="submit" disabled={!isValidEmail} style={{backgroundColor: '#1F305E',  borderColor: '#1F305E'}}>
       Submit
     </Button>
     </div>

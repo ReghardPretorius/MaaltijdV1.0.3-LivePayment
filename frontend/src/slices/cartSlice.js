@@ -77,14 +77,11 @@ const cartSlice = createSlice({
       } else if(existingItem && (JSON.stringify(existingItem.extraIngredients) === JSON.stringify(extraIngredients)))  {
         state.totalQuantity++;
         existingItem.quantity++;
-        console.log(`existingItem.totalPrice: ${existingItem.totalPrice}`);
-        console.log(`newItem.price: ${newItem.price}`);
         existingItem.totalPrice =  existingItem.totalPrice + newItem.price; 
       } else {
 
         const value = JSON.parse(localStorage.getItem("cartItems"));
         let index = value.findIndex(s => s.id === existingItem.id);
-        //console.log(`existingItem.totalPrice: ${existingItem.totalPrice}`);
         const newValue = {
         id: existingItem.id,
         title: existingItem.title,

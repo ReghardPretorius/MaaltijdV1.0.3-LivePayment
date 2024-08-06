@@ -202,11 +202,11 @@ const RegisterScreen = () => {
   useEffect(() => {
     if (isCheckedMarketing === true){
       setIsMarketing('1');
-      //console.log(isMarketing);
+
     } else 
     if (isCheckedMarketing === false){
       setIsMarketing('0');
-      //console.log(isMarketing);
+
     }
   }, [isCheckedMarketing]);
 
@@ -384,23 +384,21 @@ const RegisterScreen = () => {
     if (step === 1 && isValidName && isValidSurname && isValidEmail && isValidNumber){
       // try {
       //   const resEmailExits = await emailExists({ email }).unwrap();
-      //   console.log(resEmailExits);
+
       //   setIsExistingEmail(true);
       //   //navigate('/');
       // } catch (err) {
-      //   console.log('Error');
-      //   //console.log(resEmailExits);
+
       //   //toast.error(err?.data?.message || err.error);
       // }
 
       // try {
       //   const resCellnumberExits = await cellnumberExists({ cellNumber }).unwrap();
-      //   console.log(resCellnumberExits);
+
       //   setIsExistingCellNumber(true);
       //   //navigate('/');
       // } catch (err) {
-      //   console.log('Error');
-      //   //console.log(resEmailExits);
+
       //   //toast.error(err?.data?.message || err.error);
       // }
 
@@ -489,7 +487,7 @@ const RegisterScreen = () => {
       const lat = geometry.lat();
       const lng = geometry.lng();
 
-      // console.log(place.address_components);
+
       // Check if coordinates fall within specified bounds
       if (
         lat > -26.66253 ||
@@ -931,7 +929,7 @@ bounds={{
         <div>
          <h1>Password</h1>
 
-<p class="password-policy" aria-live="polite">
+<p className="password-policy" aria-live="polite">
 <span className="strong">Password requirements:</span>
 <ul>
 <li>At least 8 characters long</li>

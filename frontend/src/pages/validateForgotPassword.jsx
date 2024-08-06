@@ -44,9 +44,9 @@ function ValidateForgotPasswordPage() {
   }, [email]);
 
   useEffect(() => {
-    // console.log(otp); 
+
     if (otp.replace(/\s/g, '').length === 4) {
-      //console.log('run verify');
+
       handleVerifyOTP(email, otp);
     }
   }, [otp]);

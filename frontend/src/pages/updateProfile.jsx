@@ -190,7 +190,7 @@ const UpdateProfile = () => {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     if (isValidName && isValidSurname  && isValidNumber && !isExistingNumber){
-      // console.log("updating");
+
       try {
         const res = await updateProfile({ _id, name, surname, noSpaceCellNumber }).unwrap();
         dispatch(setCredentials({ ...res }));

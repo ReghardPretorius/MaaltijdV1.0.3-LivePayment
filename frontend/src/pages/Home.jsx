@@ -29,11 +29,11 @@ const HomeScreen = () => {
     {userInfo ? (
       <div className="homelayout">
       <Container >
-        <Row class='pl-1 pr-1 '>
-          <div class="rowitem">
-        <div class="home_card">
+        <Row className='pl-1 pr-1 '>
+          <div className="rowitem">
+        <div className="home_card">
         {/* <div class="card-title">Special Offer!</div> */}
-        <div class="card-content">Get Free Delivery when you order 3 or more items</div>
+        <div className="card-content">Get Free Delivery when you order 3 or more items</div>
     </div>
     </div>
         </Row>

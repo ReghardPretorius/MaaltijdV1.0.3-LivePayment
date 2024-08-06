@@ -52,14 +52,11 @@ const Cart = () => {
 
   const checkNotification = () => {
     const lastShownDate = localStorage.getItem("notificationDate");
-    console.log(lastShownDate);
     const today = new Date().toISOString().split('T')[0];
-    console.log(today);
     
     if (lastShownDate !== today) {
       localStorage.setItem("notificationDate", today);
       setShowNotification(true);
-      console.log(showNotification);
     }
   };
 
@@ -108,8 +105,7 @@ const Cart = () => {
       const windowHeight = window.innerHeight;
 
 
-      setRemainingHeight(windowHeight - 130 - 70 - 10  - 5  - deliveryHeight - detailsHeight);
-      console.log(`Header Height: ${deliveryHeight}, Details Height: ${detailsHeight}, Window Height: ${windowHeight}`);
+      setRemainingHeight(windowHeight - 130 - 70 - 10  - 5  - deliveryHeight - detailsHeight);;
     };
 
     // Initial calculation
@@ -295,39 +291,8 @@ const Cart = () => {
         const ndd = new Intl.DateTimeFormat('en-za', options2).format(date2h);
         dispatch(updateDeliveryDay(ndd));
       }
-      console.log(nextDeliveryDate);
 
     /////////////////////////////////////////////////////////////////////////////////////
-
-      // // Set target time to 12:00:00 for the current day
-      // const targetYear = now.getFullYear();
-      // const targetMonth = now.getMonth();
-      // const targetDay = now.getDate();
-      // setTargetTime(new Date(targetYear, targetMonth, targetDay, 12, 0, 0));
-
-      // const difference = targetTime - now;
-      
-//const difference = 5885332;
-      // Check if target time has passed (within the current day)
-      // if (difference > 0) {
-
-      //   const day1 = new Date(targetYear, targetMonth, (targetDay+1),2 ,0 ,0);
-      //   console.log(`Day1: ${day1}`);
-      //   const gmtPlus2Date1 = new Intl.DateTimeFormat('en-za', options2).format(day1);
-      //   dispatch(updateDeliveryDay(gmtPlus2Date1));
-      //   //setDeliveryDay(gmtPlus2Date1);
-
-      // } else {
-
-      // const day2 = new Date(targetYear, targetMonth, (targetDay+2),2 ,0 ,0);
-      // //console.log(`Day2: ${day2}`);
-      // const gmtPlus2Date2 = new Intl.DateTimeFormat('en-za', options2).format(day2);
-      // //console.log(`Day2: ${gmtPlus2Date2}`);
-      // dispatch(updateDeliveryDay(gmtPlus2Date2));
-      //   //console.log(day2);
-      //   //setDeliveryDay(gmtPlus2Date2);
-      //   //console.log(`Delivery Day2: ${deliveryDay}`);
-      // }
 
 
     //dispatch(updateDeliveryDay(deliveryDay));
@@ -371,12 +336,12 @@ const Cart = () => {
         <div className="cart__item-list">
           {cartProducts.length === 0 ? (
             <Container>
-            <Row class='pl-1 pr-1 '>
+            <Row className='pl-1 pr-1 '>
             <div className="messageCard">
-                    <div class="rowitem">
-                  <div class="shopping_card">
+                    <div className="rowitem">
+                  <div className="shopping_card">
                   {/* <div class="card-title">Special Offer!</div> */}
-                  <div class="card-content">No item added to the cart</div>
+                  <div className="card-content">No item added to the cart</div>
               </div>
               </div>
               </div>
@@ -386,11 +351,11 @@ const Cart = () => {
 ) : (
 <>
   <Container>
-  <Row class='pl-1 pr-1 '  ref={detailsRef}>
+  <Row className='pl-1 pr-1 '  ref={detailsRef}>
 <div className="messageCard">
-          <div class="rowitem">
-        <div class="shopping_card">
-        <div class="card-content">{message}</div>
+          <div className="rowitem">
+        <div className="shopping_card">
+        <div className="card-content">{message}</div>
     </div>
     </div>
     </div>

@@ -13,7 +13,7 @@ const products = [
     {
         id: "01",
         title: "Spaghetti Bolognese",
-        price: 59,
+        price: 63,
         image01: product_01_image_01,
         image02: "https://maaltjidassets.s3.af-south-1.amazonaws.com/product_1.1.png",
         // image02: product_05_image_01,
@@ -26,7 +26,7 @@ const products = [
     {
         id: "02",
         title: "Chicken Alfredo",
-        price: 59,
+        price: 63,
         image01: product_02_image_01,
         image02: "https://maaltjidassets.s3.af-south-1.amazonaws.com/product_2.1.png",
         // image02: product_02_image_02,
@@ -39,7 +39,7 @@ const products = [
       {
         id: "03",
         title: "Butter Chicken",
-        price: 59,
+        price: 63,
         image01: product_03_image_01,
         image02: "https://maaltjidassets.s3.af-south-1.amazonaws.com/product_3.1.png",
         // image02: product_03_image_02,
@@ -52,7 +52,7 @@ const products = [
       {
         id: "04",
         title: "Macaroni & Cheese",
-        price: 59,
+        price: 63,
         image01: product_04_image_01,
         image02: "https://maaltjidassets.s3.af-south-1.amazonaws.com/product_4.1.png",
         // image02: product_04_image_02,
@@ -64,7 +64,7 @@ const products = [
       {
         id: "05",
         title: "Beef Lasagna",
-        price: 59,
+        price: 63,
         image01: product_05_image_01,
         image02: "https://maaltjidassets.s3.af-south-1.amazonaws.com/product_5.1.png",
         // image02: product_01_image_02,
@@ -77,7 +77,7 @@ const products = [
       {
         id: "06",
         title: "BBQ Chicken & Bacon Pasta",
-        price: 59,
+        price: 63,
         image01: product_06_image_01,
         image02: "https://maaltjidassets.s3.af-south-1.amazonaws.com/product_6.1.png",
         // image02: product_02_image_01,
@@ -90,7 +90,7 @@ const products = [
       {
         id: "07",
         title: "Chicken Lasagna",
-        price: 59,
+        price: 63,
         image01: product_07_image_01,
         image02: "https://maaltjidassets.s3.af-south-1.amazonaws.com/product_7.1.png",
         // image02: product_03_image_01,
@@ -103,7 +103,7 @@ const products = [
       {
         id: "08",
         title: "Curry Mince & Rice",
-        price: 59,
+        price: 63,
         image01: product_08_image_01,
         image02: "https://maaltjidassets.s3.af-south-1.amazonaws.com/product_8.1.png",
         // image02: product_04_image_01,
