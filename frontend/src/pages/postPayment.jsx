@@ -35,16 +35,16 @@ const PostPay = () => {
     //const [bearerToken, setBearerToken] = useState('');
 
 
-    //const orderID = useSelector((state) => state.order.orderId);
-    const orderID = '668654574830c40fa740db25';
+    const orderID = useSelector((state) => state.order.orderId);
+    //const orderID = '668654574830c40fa740db25';
 
 
     //const checkoutId = useSelector((state) => state.payment.checkoutId);
-    //const bearerToken = useSelector((state) => state.payment.bearerToken);
+    const bearerToken = useSelector((state) => state.payment.bearerToken);
 
 
-    //const merchantTransactionId = useSelector((state) => state.payment.merchantTransactionId);
-const merchantTransactionId  = 'INV0000006';
+    const merchantTransactionId = useSelector((state) => state.payment.merchantTransactionId);
+//const merchantTransactionId  = 'INV0000006';
 //const merchantTransactionId  = '';
 
 // const now = new Date();
@@ -60,7 +60,7 @@ const [estDeliveryDate, setEstDeliveryDate] = useState('');
    // const checkoutId = '040e45f5f8bc411eb640bc28609810ea';
    //const checkoutId = '8ac7a4a19039c5ff01903b62096025eb';
     // const bearerToken = 'OGFjN2E0Yzk4ZjlmNjI4MjAxOGZhMDEzZDk3MDAxYmR8OG5adFlmOWNkQkI0Wm5mUw==';
-    const bearerToken ='eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIwMjEtMDktMDYifQ.eyJlbnRpdHlJRCI6IjIzOTQ2NjVkNDI4YjQwYWU4MTlhMThiY2E5NGQxYjViIiwicGFydG5lciI6ZmFsc2UsInNpZCI6Ijc2MmRiNDk3ODE0YTQ0NmExOWU3IiwibWVyY2hhbnRJZCI6IjIzOTQ2NjVkNDI4YjQwYWU4MTlhMThiY2E5NGQxYjViIiwiaWF0IjoxNzE5NDc0MzA1LCJuYmYiOjE3MTk0NzQzMDUsImV4cCI6MTcxOTQ4ODcwNSwiYXVkIjoiaHR0cHM6Ly9tMm0ucGVhY2hwYXltZW50cy5jb20iLCJpc3MiOiJodHRwczovL3NhbmRib3gtc2VydmljZXMucHBheS5pby8iLCJzdWIiOiJkZjJlOWJlOWI3YWFhMDQ5ZTIwY2Y5NmM3Mzg3ODUifQ.bcv8tlkzEedy0mILl0v1qvsJTeR5Nx_x1tOiuGbwHJMRW2Z5iCR2VlkAaubMfxkKvZHW_PBCrj_jfU-wKT5B2AZWsIcD-lWHCatU__gKcQFb-IRN4HQ_24SZrmzw43GQWcYIW5DaksolpEBghaaJlkG3s6SmxaXRmujO24ph9gGAmKXz2xbXSVi6MeZFYJwJrQ4zF5tpvzO_ZjPp_Mgr92ftv4uDNhdFNSRncir0dUuM4Z5SAFRtd7VB0Uh0v_Tl_w_uNZs-uluQOpnFSfSSXZfqCcC_efun-epb8lF36CPTd2-Mqjm1yGOLzekDr5nXz_573auaAfC9BA2Ut6-zyd80R6KekL723N2SQ2e8rB65slu0zC1wTI_NlkNmP6dc6Stt2cSxu0Kc3Oms-F22JaENLAErimZJYxcgxSXxQHV4O1_6EgNTW8W_Q6V69hbJWAz1oSsOXmhbn_Qe80TaFshcTH5c9yPl3hmcrOpl_TfbRQ9KspzgVfE-86dvdOoS0o2BSPChRpImheTHnKpIGb5cLQB8qmI46G6DNQ1DDF7ykc6k0eF5tdzJBlIuTpnJ217Pzxq_B0HYNBrPDmc8RtsdhYmVgs5iIr4SkZ-4pc4XO4PYAY6H1WigdoetmvhjfPCn33riMj_BcXthVe4d8cxeZNmRdzPU4D4PVt4gKw8'
+    //const bearerToken ='eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIwMjEtMDktMDYifQ.eyJlbnRpdHlJRCI6IjIzOTQ2NjVkNDI4YjQwYWU4MTlhMThiY2E5NGQxYjViIiwicGFydG5lciI6ZmFsc2UsInNpZCI6Ijc2MmRiNDk3ODE0YTQ0NmExOWU3IiwibWVyY2hhbnRJZCI6IjIzOTQ2NjVkNDI4YjQwYWU4MTlhMThiY2E5NGQxYjViIiwiaWF0IjoxNzE5NDc0MzA1LCJuYmYiOjE3MTk0NzQzMDUsImV4cCI6MTcxOTQ4ODcwNSwiYXVkIjoiaHR0cHM6Ly9tMm0ucGVhY2hwYXltZW50cy5jb20iLCJpc3MiOiJodHRwczovL3NhbmRib3gtc2VydmljZXMucHBheS5pby8iLCJzdWIiOiJkZjJlOWJlOWI3YWFhMDQ5ZTIwY2Y5NmM3Mzg3ODUifQ.bcv8tlkzEedy0mILl0v1qvsJTeR5Nx_x1tOiuGbwHJMRW2Z5iCR2VlkAaubMfxkKvZHW_PBCrj_jfU-wKT5B2AZWsIcD-lWHCatU__gKcQFb-IRN4HQ_24SZrmzw43GQWcYIW5DaksolpEBghaaJlkG3s6SmxaXRmujO24ph9gGAmKXz2xbXSVi6MeZFYJwJrQ4zF5tpvzO_ZjPp_Mgr92ftv4uDNhdFNSRncir0dUuM4Z5SAFRtd7VB0Uh0v_Tl_w_uNZs-uluQOpnFSfSSXZfqCcC_efun-epb8lF36CPTd2-Mqjm1yGOLzekDr5nXz_573auaAfC9BA2Ut6-zyd80R6KekL723N2SQ2e8rB65slu0zC1wTI_NlkNmP6dc6Stt2cSxu0Kc3Oms-F22JaENLAErimZJYxcgxSXxQHV4O1_6EgNTW8W_Q6V69hbJWAz1oSsOXmhbn_Qe80TaFshcTH5c9yPl3hmcrOpl_TfbRQ9KspzgVfE-86dvdOoS0o2BSPChRpImheTHnKpIGb5cLQB8qmI46G6DNQ1DDF7ykc6k0eF5tdzJBlIuTpnJ217Pzxq_B0HYNBrPDmc8RtsdhYmVgs5iIr4SkZ-4pc4XO4PYAY6H1WigdoetmvhjfPCn33riMj_BcXthVe4d8cxeZNmRdzPU4D4PVt4gKw8'
 
 
     //const bearerToken = 'OGFjN2E0Yzk4ZjlmNjI4MjAxOGZhMDEzZDk3MDAxYmR8OG5adFlmOWNkQkI0Wm5mUw==';
@@ -75,24 +75,7 @@ const [estDeliveryDate, setEstDeliveryDate] = useState('');
     const [checkoutStatusApi, { isLoadingCheckoutStatusApi  }] = useQueryStatusMutation();
 
     const successCodes = [
-      '000.000.000',
-      '000.000.100',
-      '000.100.105',
-      '000.100.106',
-      '000.100.110',
-      '000.100.111',
-      '000.100.112',
-      '000.300.000',
-      '000.300.100',
-      '000.300.101',
-      '000.300.102',
-      '000.300.103',
-      '000.310.100',
-      '000.310.101',
-      '000.310.110',
-      '000.400.110',
-      '000.400.120',
-      '000.600.000'
+      '000.000.000'
     ];
 
     useEffect(() => {
@@ -255,9 +238,11 @@ return (
           <AiFillCheckCircle className="checkoutIcon" />
           <h3>Success</h3>
         </div>
+        <div className="postpaymentinfo">
         <p>Your order was successfully placed.</p>
         <p>To view your orders, go to:</p>
         <p>Profile &rarr; Orders.</p>
+        </div>
       </>
     ) : (
       <>
@@ -265,7 +250,10 @@ return (
         <AiFillCloseCircle className="checkoutIcon" style={{ color: 'red' }} />
         <h3>Failed</h3>
         </div>
-        <p>Payment was unsuccessful. Please try again or if error persist contact Maaltijd at <a href="mailto:info@maaltijd.co.za">info@maaltijd.co.za</a>.</p>
+        <div className="postpaymentinfo">
+        <p>Payment was unsuccessful. </p>
+        <p>Please try again or if error persist contact Maaltijd at <a href="mailto:info@maaltijd.co.za">info@maaltijd.co.za</a>.</p>
+        </div>
       </>
     )}
   </Container>

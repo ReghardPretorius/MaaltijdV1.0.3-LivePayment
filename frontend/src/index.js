@@ -31,6 +31,8 @@ import PostPay from './pages/postPayment.jsx';
 import UserProfilePage from './pages/user.jsx';
 import OrdersList from './pages/orders.jsx';
 import OrderDetails from './pages/orderDetails.jsx';
+import PreCheckout from './pages/preCheckout.jsx';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,6 +50,7 @@ const router = createBrowserRouter(
         <Route path='/cart' element={<Cart />} />
         <Route path='/payment' element={<Payment />} />
         <Route path='/checkout' element={<Checkout />} />
+        <Route path='/precheckout' element={<PreCheckout />} />
         <Route path='/postpayment' element={<PostPay />} />
         <Route path='/user/updateprofile' element={<UpdateProfile />} />
         <Route path='/address' element={<EditAddressScreen />} />

@@ -80,6 +80,18 @@ OGOrderID: {
     type: String,
     required: false
   },
+  cashPayed: {
+    type: Number,
+    required: false
+  },
+  promoPayed: {
+    type: Number,
+    required: false
+  },
+  walletPayed: {
+    type: Number,
+    required: false
+  },
   actualDateDelivered: {
     type: Date,
     required: false

@@ -15,16 +15,37 @@ const totalQuantity =
     ? JSON.parse(localStorage.getItem("totalQuantity"))
     : 0;
 
+const cashAmount =
+localStorage.getItem("totalQuantity") !== null
+  ? JSON.parse(localStorage.getItem("totalQuantity"))
+  : 0;
+
+const walletAmount =
+localStorage.getItem("totalQuantity") !== null
+  ? JSON.parse(localStorage.getItem("totalQuantity"))
+  : 0;
+
+const promoAmount =
+localStorage.getItem("totalQuantity") !== null
+  ? JSON.parse(localStorage.getItem("totalQuantity"))
+  : 0;
+
 const setItemFunc = (item, totalAmount, totalQuantity) => {
   localStorage.setItem("cartItems", JSON.stringify(item));
   localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
   localStorage.setItem("totalQuantity", JSON.stringify(totalQuantity));
+  localStorage.setItem("cashAmount", JSON.stringify(totalQuantity));
+  localStorage.setItem("walletAmount", JSON.stringify(totalQuantity));
+  localStorage.setItem("promoAmount", JSON.stringify(totalQuantity));
 };
 
 const initialState = {
   cartItems: items,
   totalQuantity: totalQuantity,
   totalAmount: totalAmount,
+  cashAmount: cashAmount,
+  walletAmount: walletAmount,
+  promoAmount: promoAmount,
 };
 
 const cartSlice = createSlice({
@@ -133,6 +154,63 @@ const cartSlice = createSlice({
     //============ delete item ===========
 
     deleteItem(state, action) {
+      const id = action.payload;
+      const existingItem = state.cartItems.find((item) => item.id === id);
+
+      if (existingItem) {
+        state.cartItems = state.cartItems.filter((item) => item.id !== id);
+        state.totalQuantity = state.totalQuantity - existingItem.quantity;
+      }
+
+      state.totalAmount = state.cartItems.reduce(
+        (total, item) => total + Number(item.price) * Number(item.quantity),
+        0
+      );
+
+      if (state.totalQuantity  < 3 && state.totalQuantity > 0){
+        state.totalAmount = state.totalAmount + 20;
+      };
+
+      setItemFunc(
+        state.cartItems.map((item) => item),
+        state.totalAmount,
+        state.totalQuantity
+      );
+    },
+
+        //============ add wallet ===========
+
+        addWallet(state, action) {
+          const id = action.payload;
+          const existingItem = state.cartItems.find((item) => item.id === id);
+    
+          if (existingItem) {
+            state.cartItems = state.cartItems.filter((item) => item.id !== id);
+            state.totalQuantity = state.totalQuantity - existingItem.quantity;
+          }
+    
+          state.totalAmount = state.cartItems.reduce(
+            (total, item) => total + Number(item.price) * Number(item.quantity),
+            0
+          );
+    
+          if (state.totalQuantity  < 3 && state.totalQuantity > 0){
+            state.totalAmount = state.totalAmount + 20;
+          };
+    
+          setItemFunc(
+            state.cartItems.map((item) => item),
+            state.totalAmount,
+            state.totalQuantity,
+            state.totalQuantity,
+            state.totalQuantity,
+            state.totalQuantity,
+          );
+        },
+
+            //============ add promo code ===========
+
+    addPromoCode(state, action) {
       const id = action.payload;
       const existingItem = state.cartItems.find((item) => item.id === id);
 

@@ -56,8 +56,8 @@
 
   /* Style for the order item list container */
 .user__item-list {
-    /* height: calc(100vh - 130px); */
-    padding-bottom: 70px;
+    height: calc(100vh - 130px);
+    padding-bottom: 65px;
     overflow-y: auto;
     scrollbar-width: thin; /* For Firefox */
     scrollbar-color: #888 #f1f1f1; /* For Firefox */
@@ -187,3 +187,9 @@
         margin: 0;
   }
   
+
+  .email{
+    margin-right: auto;
+    margin-left:auto;
+    max-width: 900px;
+  }

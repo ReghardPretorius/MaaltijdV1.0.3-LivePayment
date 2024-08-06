@@ -2,3 +2,9 @@
     margin-top: 15px;
     margin-bottom: 15px;
   }
+
+  .postpaymentinfo{
+    margin-right: auto;
+    margin-left:auto;
+    max-width: 900px;
+  }

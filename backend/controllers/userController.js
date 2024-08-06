@@ -31,7 +31,8 @@ const authUser = asyncHandler(async (req, res) => {
       unit: user.unit, 
       building: user.building, 
       optionalAddressInfo: user.optionalAddressInfo,
-      formattedAddress: user.formattedAddress
+      formattedAddress: user.formattedAddress,
+      wallet: user.wallet,
     });
   } else {
     res.status(401);
@@ -44,8 +45,9 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   //const { name, email, password } = req.body;
-  const { name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress , marketing} = req.body;
-  
+  const { name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress , marketing, walletInitial} = req.body;
+  const wallet = Number(walletInitial);
+
   const userExists = await User.findOne({ email });
 
   if (userExists) {
@@ -74,7 +76,8 @@ const registerUser = asyncHandler(async (req, res) => {
     building, 
     optionalAddressInfo,
     formattedAddress,
-    marketing
+    marketing,
+    wallet
   });
 
   if (user) {
@@ -113,7 +116,8 @@ const registerUser = asyncHandler(async (req, res) => {
       unit: user.unit, 
       building: user.building, 
       optionalAddressInfo: user.optionalAddressInfo,
-      formattedAddress: user.formattedAddress
+      formattedAddress: user.formattedAddress,
+      wallet: user.wallet,
     });
   } else {
     res.status(400);

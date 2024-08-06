@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect , useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { useGetUserOrdersMutation } from "../slices/orderAPIslice";
 import { useDispatch, useSelector } from "react-redux"; 
@@ -14,6 +14,9 @@ const OrdersList = () => {
     const [displayOrders, setDisplayOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const detailsRef = useRef(null);
+    const headerRef = useRef(null);
+    const [remainingHeight, setRemainingHeight] = useState(0);
 
     const [getUserOrders, { isLoadingGetUserOrders }] = useGetUserOrdersMutation();
     const userID = useSelector((state) => state.auth.userInfo._id);
@@ -28,6 +31,29 @@ const OrdersList = () => {
       const handleArrowClick = () => {
         navigate('/user');
       };
+
+      useLayoutEffect(() => {
+        const updateHeight = () => {
+          const headerHeight = headerRef.current ? headerRef.current.offsetHeight : 0;
+          const detailsHeight = detailsRef.current ? detailsRef.current.offsetHeight : 0;
+
+          const windowHeight = window.innerHeight;
+
+    
+          setRemainingHeight(windowHeight - 130 - 30 - headerHeight);
+          console.log(`Header Height: ${headerHeight}, Details Height: ${detailsHeight}, Window Height: ${windowHeight}`);
+        };
+    
+        // Initial calculation
+        // updateHeight();
+        setTimeout(updateHeight, 500);
+    
+        // Recalculate on window resize
+        window.addEventListener('resize', updateHeight);
+    
+        return () => window.removeEventListener('resize', updateHeight);
+      }, []);
+
 
     useEffect(() => {
         const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
@@ -110,9 +136,10 @@ const OrdersList = () => {
     }
 
     return (
+      <div className='orders__page'>
         <Container>
         <div>
-            <div className='ordersheader'>
+            <div className='ordersheader' ref={headerRef}>
             <div className="d-flex align-items-center mb-3">
   <div className="arrow">
     <FaArrowLeft onClick={handleArrowClick} />
@@ -140,12 +167,17 @@ const OrdersList = () => {
 ) : (
 
   <>
+      <div className='orders__item-list' style={{ height: remainingHeight }}>
+      <Row className="pl-1 pr-1">
+      {displayOrders.map(order => (
+
+<OrderCard order={order} key={order._id} onClick={() => handleOrderClicked(order.OGOrderID)}/>
+
+))}
+      </Row>
+    </div>
   
-  {displayOrders.map(order => (
 
-              <OrderCard order={order} key={order._id} onClick={() => handleOrderClicked(order.OGOrderID)}/>
-
-        ))}
 
         {/* <div className="orders-list">
       <ul>
@@ -166,7 +198,7 @@ const OrdersList = () => {
         </div>
 </div>
 </Container>
-
+</div>
        
     );
 };

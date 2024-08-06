@@ -16,11 +16,13 @@ import "../styles/user.css";
 
 const UserProfilePage = () => {
     const email = useSelector((state) => state.auth.userInfo.email);
+    const walletState = useSelector((state) => state.auth.userInfo.wallet); 
     const [displayEmail, setDisplayEmail] = useState('');
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showPP, setShowPP] = useState(false);
     const [showTerms, setShowTerms] = useState(false);
     const [showContact, setShowContact] = useState(false);
+    const [wallet, setWallet] = useState('');
 
     const handleCloseTerms = () => setShowTerms(false);
     const handleShowTerms = () => setShowTerms(true);
@@ -52,7 +54,16 @@ const UserProfilePage = () => {
     
     const handleUpdateDetailsClicked = () => {
       navigate('/user/updateprofile');
+      
     }
+
+    useEffect(() => {
+if (walletState === ''){
+  setWallet(0);
+} else {
+  setWallet(walletState);
+}
+    }, [walletState]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -95,7 +106,7 @@ const UserProfilePage = () => {
       }, [email, windowWidth]);
 
   return (
-    <div className="container">
+    <div >
       <div className="email">
         <h4>{displayEmail}</h4>
         {/* <span>{displayEmail}</span> */}
@@ -109,6 +120,16 @@ const UserProfilePage = () => {
         {/* <div className="block">
           <Link to="/user/orders" className="link">Orders</Link>
         </div> */}
+
+<div className="user_card" >
+            <div className="user_card-title">
+              <h5 className='my-1'><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+  <span>Wallet</span>
+  <span>R <i>{wallet}</i></span>
+</div>
+</h5>
+            </div>
+          </div>
 
 <div className="user_card" onClick={handleUpdateDetailsClicked}>
             <div className="user_card-title">
@@ -151,6 +172,8 @@ const UserProfilePage = () => {
             </div>
           </div>
 
+
+
         {/* <div className="block">
         <span  onClick={handleShowContact} style={{color: '#1F305E'}}>
                 Contact Us
@@ -169,36 +192,12 @@ const UserProfilePage = () => {
         </Modal.Header>
         <Modal.Body>
         <div>
-      <h1>Maaltijd - Terms of Use</h1>
-      <p>Thank you for choosing Maaltijd for your food ordering and delivery needs. By using our services, you agree to comply with the following Terms of Use:</p>
-
-      <h2>1. Order Placement and Delivery Schedule:</h2>
-      <p>1.1. Order Placement Deadline: Orders must be placed before 12:00 (noon) to qualify for next-day delivery.</p>
-      <p>1.2. Delivery Days and Hours: Deliveries will be carried out from Monday to Friday between 08:00 and 17:00, and on Saturdays from 08:00 to 12:00. No deliveries will be made on Sundays.</p>
-
-      <h2>2. Returns Policy:</h2>
-      <p>2.1. Product Returns: Due to the nature of our products, we do not accept returns. However, if you believe a product does not meet our standards, please contact us at <a href="mailto:info@maaltijd.co.za">info@maaltijd.co.za</a> promptly. We will conduct an inspection and issue a refund for any sub-standard products. No refund will be provided if it is determined that the food's quality was affected by improper consumer handling.</p>
-
-      <h2>3. Collection Responsibilities:</h2>
-      <p>3.1. Address Accuracy: Please ensure that the provided delivery address is accurate and that someone is available to collect the food at the specified location.</p>
-      <p>3.2. Collection Timeframe: Failure to collect the food within a reasonable timeframe will result in the order being considered as your loss. If the initial delivery is unsuccessful, we will attempt one additional free delivery on the next delivery day. Subsequent attempts will incur additional charges, and arrangements can be made via contact at <a href="mailto:info@maaltijd.co.za">info@maaltijd.co.za</a>.</p>
-
-      <h2>4. Food Storage Recommendations:</h2>
-      <p>4.1. Refrigeration: It is recommended to refrigerate any food intended for consumption within the next day or two.</p>
-      <p>4.2. Freezing: For food intended to be consumed after two days, please freeze and defrost as needed.</p>
-
-      <h2>5. Consumer Risk and Liability:</h2>
-      <p>5.1. Consumption Risk: While Maaltijd maintains the highest standards in ingredients, food preparation, and handling, the consumption of Maaltijd products is at your own risk.</p>
-      <p>5.2. Liability Disclaimer: Maaltijd will not be liable for any sickness or death resulting from the consumption of any Maaltijd product.</p>
-
-      <h2>6. General Provisions</h2>
-      <p>6.1 Intellectual Property: All content on the Maaltijd platform, including but not limited to text, graphics, logos, and images, is the property of Maaltijd and is protected by copyright and other intellectual property laws.</p>
-      <p>6.2 Privacy Policy: Your use of the Services is also governed by our Privacy Policy.</p>
-      <p>6.3 Modifications: Maaltijd reserves the right to modify, suspend, or terminate the Services or these Terms of Use at any time. Users will be notified of significant changes.</p>
-      <p>6.4 Contact Information: For any inquiries or assistance, please contact us at <a href="mailto:info@maaltijd.co.za">info@maaltijd.co.za</a>.</p>
-
-      <p>By using Maaltijd's Services, you agree to these Terms of Use. If you do not agree with any part of these terms, please refrain from using our Services.</p>
-    </div>
+      <h1>Maaltijd - Contact Information</h1>
+      <p>Email: <a href="mailto:info@maaltijd.co.za">info@maaltijd.co.za</a></p>
+      <p>Cell: 0710719076</p>
+      <p>Instagram: <a href="https://www.instagram.com/maaltijd_">@maaltijd_</a></p>
+      <p>Whatsapp: <a href="https://wa.me/27710719076">+27710719076</a></p>
+      </div>
 
 
         </Modal.Body>

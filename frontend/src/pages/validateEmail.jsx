@@ -63,6 +63,7 @@ function EmailValidationPage() {
   const formattedAddress = useSelector((state) => state.userAutocomplete.formattedAddress);
 
   const emailFromRedux = useSelector((state) => state.userInfo.email);
+  const walletInitial = 0;
   //setEmail(emailFromRedux);
 
   useEffect(() => {
@@ -107,7 +108,7 @@ function EmailValidationPage() {
       if (response.message === 'Email verified successfully') {
         try {
           await updateEmailIsVerified("1"); 
-          const res = await register({ name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress, marketing }).unwrap();
+          const res = await register({ name, surname, email, cellNumber, password, emailIsVerified, numberIsVerified, terms, addressName, lat, long, town, suburb, street, streetNumber, postalCode, unit, building, optionalAddressInfo, formattedAddress, marketing, walletInitial }).unwrap();
            dispatch(setCredentials({ ...res }));
           navigate('/');
         } catch (err) {
