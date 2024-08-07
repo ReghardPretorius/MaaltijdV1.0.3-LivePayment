@@ -37,7 +37,7 @@ const HomeScreen = () => {
     </div>
     </div>
         </Row>
-        <Row>
+        <Row >
           {displayPage.map((item) => (
             <Col
               lg="3"

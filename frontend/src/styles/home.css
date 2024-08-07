@@ -1,14 +1,34 @@
-.homelayout {
-    /* background-color: #000D29 !important; */
-    /* height: calc(100vh-130px) !important; */
+/* .homelayout {
     top: 70px;
     height: calc(100vh - 130px);
     overflow-y: auto;
-    scrollbar-width: thin; /* For Firefox */
-    scrollbar-color: #888 #f1f1f1; /* For Firefox */
+    scrollbar-width: thin; 
+    scrollbar-color: #888 #f1f1f1; 
     margin-right: auto;
   margin-left:auto;
+} */
+
+.homelayout {
+  position: absolute; /* Ensures the positioning is relative to the viewport */
+  top: 70px; /* Adjust based on the header's height */
+  left: 0;
+  right: 0;
+  height: calc(100vh - 130px); /* 100vh minus the total height of header and footer */
+  overflow-y: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #888 #f1f1f1; /* For Firefox */
+  padding: 0; /* Remove padding if present */
+  margin: 0 auto; /* Center the content horizontally */
 }
+
+@media screen and (max-width: 768px) {
+  .homelayout {
+    /* Adjustments for smaller screens if needed */
+    top: 70px; /* Or adjust if the header's height changes */
+    height: calc(100vh - 130px); /* Ensuring it still fits between header and footer */
+  }
+}
+
 
 /* Webkit browsers (Chrome, Safari) */
 .homelayout::-webkit-scrollbar {

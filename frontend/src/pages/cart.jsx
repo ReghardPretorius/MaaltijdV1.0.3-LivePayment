@@ -110,7 +110,7 @@ const Cart = () => {
 
     // Initial calculation
     // updateHeight();
-    setTimeout(updateHeight, 2000);
+    setTimeout(updateHeight, 3000);
 
     // Recalculate on window resize
     window.addEventListener('resize', updateHeight);
