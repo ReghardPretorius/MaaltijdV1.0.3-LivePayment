@@ -13,7 +13,7 @@
   top: 70px; /* Adjust based on the header's height */
   left: 0;
   right: 0;
-  height: calc(100vh - 130px); /* 100vh minus the total height of header and footer */
+  height: calc(100dvh - 130px); /* 100vh minus the total height of header and footer */
   overflow-y: auto;
   scrollbar-width: thin; /* For Firefox */
   scrollbar-color: #888 #f1f1f1; /* For Firefox */
@@ -25,7 +25,7 @@
   .homelayout {
     /* Adjustments for smaller screens if needed */
     top: 70px; /* Or adjust if the header's height changes */
-    height: calc(100vh - 130px); /* Ensuring it still fits between header and footer */
+    height: calc(100dvh - 130px); /* Ensuring it still fits between header and footer */
   }
 }
 

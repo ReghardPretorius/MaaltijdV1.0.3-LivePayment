@@ -130,7 +130,7 @@
 }
 
 .orderdetails__page{
-  height: calc(100vh - 130px);
+  height: calc(100dvh - 130px);
   overflow-y: hidden;
 }
 
