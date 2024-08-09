@@ -357,7 +357,7 @@ const PreCheckout = () => {
    
 
     <div className="cart__bottom d-flex align-items-center justify-content-between">
-<h6>
+<h6 className="my-auto">
   Total : <span>R {totalAmount}</span>
 </h6>
 <Button onClick={togglePayment}>

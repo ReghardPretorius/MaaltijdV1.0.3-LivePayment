@@ -10,6 +10,7 @@ import emailRoutes from './routes/emailRoutes.js';
 import emailFPRoutes from './routes/emailForgotPassword.js';
 import orderRoutes from './routes/orderRoutes.js';
 import emailOrderRoutes from './routes/emailOrderRoutes.js';
+import postPaymentRoutes from './routes/postPaymentRoutes.js';
 import cors from 'cors';
 import { log } from 'console';
 import checkoutRoutes  from "./routes/checkoutRoutes.js";
@@ -36,6 +37,7 @@ app.use('/email', emailRoutes); // Base path for email-related routes
 app.use('/email/order', emailOrderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/order', orderRoutes);
+app.use('/postpayment', postPaymentRoutes);
 
 app.use(bodyParser.json());
 app.use("/api", checkoutRoutes);

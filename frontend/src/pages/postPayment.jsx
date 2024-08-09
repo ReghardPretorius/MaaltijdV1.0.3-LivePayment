@@ -74,9 +74,31 @@ const [estDeliveryDate, setEstDeliveryDate] = useState('');
 
     const [checkoutStatusApi, { isLoadingCheckoutStatusApi  }] = useQueryStatusMutation();
 
+    // const successCodes = [
+    //   '000.000.000'
+    // ];
+
     const successCodes = [
-      '000.000.000'
+      '000.000.000',
+      '000.000.100',
+      '000.100.105',
+      '000.100.106',
+      '000.100.110',
+      '000.100.111',
+      '000.100.112',
+      '000.300.000',
+      '000.300.100',
+      '000.300.101',
+      '000.300.102',
+      '000.300.103',
+      '000.310.100',
+      '000.310.101',
+      '000.310.110',
+      '000.400.110',
+      '000.400.120',
+      '000.600.000'
     ];
+    
 
     useEffect(() => {
       setStateMerchantTransactionId(merchantTransactionId);
