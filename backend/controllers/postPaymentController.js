@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import TransactionLog from '../models/transactionLog.js';
 
 
 
@@ -6,25 +7,25 @@ import asyncHandler from 'express-async-handler';
 // @route   GET /api/users/profile
 // @access  Private
 const postPaymentController = asyncHandler(async (req, res) => {
-    console.log(req);
-    console.log(req.body);
+    const data = req.body;
+    const resultCode = data['result.code'];
+    const resultDescription = data['result.description'];
+    const merchantTransactionId = data.merchantTransactionId;
+
+    const transaction = await User.create({
+      resultCode,
+      resultDescription,
+      merchantTransactionId,
+    });
+  
+    if (transaction) {
+      res.status(201);
+    } else {
+      res.status(400);
+      throw new Error('Invalid transaction data');
+    }
 
   
-    // if (user) {
-    //   res.json({
-    //     _id: user._id,
-    //     name: user.name,
-    //     surname: user.surname,
-    //     email: user.email,
-    //     cellNumber: user.cellNumber,
-    //     emailIsVerified: user.emailIsVerified,
-    //     numberIsVerified: user.numberIsVerified,
-    //     terms: user.terms,
-    //   });
-    // } else {
-    //   res.status(404);
-    //   throw new Error('User not found');
-    // }
   });
 
   export {
