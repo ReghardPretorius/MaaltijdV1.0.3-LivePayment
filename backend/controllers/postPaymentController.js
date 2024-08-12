@@ -10,12 +10,14 @@ const postPaymentController = asyncHandler(async (req, res) => {
     const data = req.body;
     const resultCode = data['result.code'];
     const resultDescription = data['result.description'];
+    const amount = data.amount;
     const merchantTransactionId = data.merchantTransactionId;
 
-    const transaction = await User.create({
+    const transaction = await TransactionLog.create({
       resultCode,
       resultDescription,
       merchantTransactionId,
+      amount
     });
   
     if (transaction) {

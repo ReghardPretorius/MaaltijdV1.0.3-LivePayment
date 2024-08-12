@@ -14,7 +14,11 @@ const transactionLogSchema = mongoose.Schema(
     resultDescription: {
         type: String,
         required: true
-  }
+  },
+  amount: {
+    type: String,
+    required: true
+},
 },
   {
     timestamps: true,
