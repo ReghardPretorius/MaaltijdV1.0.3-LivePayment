@@ -94,6 +94,22 @@ sendAdminOrderEmail: builder.mutation({
   }),
 }),
 
+getTransactionStatus: builder.mutation({
+  query: (data) => ({
+    url: `${ORDERS_URL}/transactionstatus`,
+    method: 'POST',
+    body: data,
+  }),
+}),
+
+getOrderID: builder.mutation({
+  query: (data) => ({
+    url: `${ORDERS_URL}/getorderID`,
+    method: 'POST',
+    body: data,
+  }),
+}),
+
 
   }),
 });
@@ -110,6 +126,8 @@ export const {
     useUpdateStatusLogMutation,
     useSendOrderEmailMutation,
     useGetPaidOrderDetailsMutation,
-    useSendAdminOrderEmailMutation
+    useSendAdminOrderEmailMutation,
+    useGetTransactionStatusMutation,
+    useGetOrderIDMutation
 
 } = orderApiSlice;

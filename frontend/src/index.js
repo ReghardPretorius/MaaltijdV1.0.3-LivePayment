@@ -51,7 +51,7 @@ const router = createBrowserRouter(
         <Route path='/payment' element={<Payment />} />
         <Route path='/checkout' element={<Checkout />} />
         <Route path='/precheckout' element={<PreCheckout />} />
-        <Route path='/postpayment' element={<PostPay />} />
+        <Route path='/postpayment/:transactionId' element={<PostPay />} />
         <Route path='/user/updateprofile' element={<UpdateProfile />} />
         <Route path='/address' element={<EditAddressScreen />} />
         <Route path='/user' element={<UserProfilePage />} />

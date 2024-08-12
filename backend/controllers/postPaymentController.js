@@ -21,7 +21,7 @@ const postPaymentController = asyncHandler(async (req, res) => {
     });
   
     if (transaction) {
-      res.status(201);
+      res.status(201).redirect(`https://maaltijd.co.za/postpayment/${merchantTransactionId}`);
     } else {
       res.status(400);
       throw new Error('Invalid transaction data');

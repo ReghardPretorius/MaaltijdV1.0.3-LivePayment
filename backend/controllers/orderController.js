@@ -7,6 +7,7 @@ import orderStatus from '../models/orderStatusLog.js';
 import Address from '../models/addressModel.js';
 import generateToken from '../utils/generateToken.js';
 import moment from 'moment'
+import TransactionLog from '../models/transactionLog.js';
 
 
 
@@ -339,6 +340,49 @@ const OGOrderID = req.body.id
 });
 
 
+  // @desc   Get a single order
+// @route   POST /api/users
+// @access  Public
+
+const getTransactionStatus = asyncHandler(async (req, res) => {
+  const { merchantTransactionId } = req.body; // Assuming user ID is passed in the route parameters
+
+  // Input validation (optional but recommended):
+  if (!merchantTransactionId) {
+    return res.status(400).json({ message: 'Missing required parameter: merchantTransactionId' });
+  }
+
+  // Efficiently retrieve orders using query with filtering by userID:
+  const transactions = await TransactionLog.find({ merchantTransactionId });
+  if (transactions) {
+    res.status(200).json(transactions);
+  } else {
+    res.status(404).json({ message: 'No order found for this order' });
+  }
+});
+
+
+  // @desc   Get a single order
+// @route   POST /api/users
+// @access  Public
+
+const getOrderID = asyncHandler(async (req, res) => {
+  const { merchantTransactionId } = req.body; // Assuming user ID is passed in the route parameters
+
+  // Input validation (optional but recommended):
+  if (!merchantTransactionId) {
+    return res.status(400).json({ message: 'Missing required parameter: merchantTransactionId' });
+  }
+
+  // Efficiently retrieve orders using query with filtering by userID:
+  const order = await Order.find({ merchantTransactionId });
+  if (order) {
+    res.status(200).json(order._id);
+  } else {
+    res.status(404).json({ message: 'No order found for this order' });
+  }
+});
+
 
 
 
@@ -353,5 +397,7 @@ export {
   getOrderDetails,
   createStatusLog,
   updateStatusLog,
-  getPaidOrderDetails
+  getPaidOrderDetails,
+  getTransactionStatus,
+  getOrderID
 };

@@ -8,19 +8,23 @@ import { useQueryStatusMutation } from '../slices/paymentApislice';
 import { useDispatch, useSelector } from "react-redux";
 import {    useCreatePaidOrderMutation } from "../slices/orderAPIslice"; 
 import Loader from '../components/Loader';
-import { useGetOrderDetailsMutation, useGetOrderItemsMutation, useUpdateOrderMutation, useCreateStatusLogMutation, useSendOrderEmailMutation, useSendAdminOrderEmailMutation } from "../slices/orderAPIslice";
+import { useGetOrderDetailsMutation, useGetOrderItemsMutation, useUpdateOrderMutation, useCreateStatusLogMutation, useSendOrderEmailMutation, useSendAdminOrderEmailMutation, useGetTransactionStatusMutation , useGetOrderIDMutation} from "../slices/orderAPIslice";
 import products from "../assets/data/products";
 import { Container } from "react-bootstrap"; 
+import { useParams } from 'react-router-dom';
 
 import "../styles/postPayment.css"; 
 
 const PostPay = () => {
 
 
-
+  const { transactionID } = useParams();
+  const merchantTransactionId = transactionID;
   const [orderPlacedTimestamp, setOrderPlacedTimestamp] = useState('');
   const [stateMerchantTransactionId, setStateMerchantTransactionId] = useState('');
   
+  const [getTransactionStatus, { isLoadingGetTransactionStatus }] = useGetTransactionStatusMutation();
+  const [getOrderID, { isLoadingGetOrderID }] = useGetOrderIDMutation();
   
 
   const [getOrder, { isLoadingGetOrder }] = useGetOrderDetailsMutation();
@@ -35,7 +39,7 @@ const PostPay = () => {
     //const [bearerToken, setBearerToken] = useState('');
 
 
-    const orderID = useSelector((state) => state.order.orderId);
+    //const orderID = useSelector((state) => state.order.orderId);
     //const orderID = '668654574830c40fa740db25';
 
 
@@ -43,7 +47,7 @@ const PostPay = () => {
     const bearerToken = useSelector((state) => state.payment.bearerToken);
 
 
-    const merchantTransactionId = useSelector((state) => state.payment.merchantTransactionId);
+    //const merchantTransactionId = useSelector((state) => state.payment.merchantTransactionId);
 //const merchantTransactionId  = 'INV0000006';
 //const merchantTransactionId  = '';
 
@@ -109,15 +113,24 @@ const [estDeliveryDate, setEstDeliveryDate] = useState('');
     useEffect(() => {
       //const merchantTransactionId = 'INV0000007'
         const fetchPaymentStatusUrl = async () => {
-          const data = await checkoutStatusApi({ merchantTransactionId, bearerToken  }).unwrap();
-          const code = data.statusCode;
+          // const data = await checkoutStatusApi({ merchantTransactionId, bearerToken  }).unwrap();
+          // const code = data.statusCode;
+
+          // const data = await getTransactionStatus({ merchantTransactionId  }).unwrap();
+          // const code = data.statusCode;
           
-          //setCheckoutId(data.checkout_Id); // Assuming API returns checkoutId
-          //setApiKey(data.entityId); // Assuming API returns key
-          if (successCodes.includes(code)) {
-            setStatus('Successful');
+          // if (successCodes.includes(code)) {
+          //   setStatus('Successful');
+          const data = await getTransactionStatus({ merchantTransactionId }).unwrap();
+         const codes = Array.isArray(data.statusCodes) ? data.statusCodes : [data.statusCode];
+
+if (codes.some(code => successCodes.includes(code))) {
+  setStatus('Successful');
+
+
 
             try {
+              const orderID = await getOrderID({ merchantTransactionId }).unwrap();
               const order1 = await getOrder({ orderID }).unwrap();
               let orderDate = new Date(order1[0].timestamp);
               const orderPlacedTimestamp = new Date();
@@ -180,7 +193,7 @@ const [estDeliveryDate, setEstDeliveryDate] = useState('');
                 orderDetails.push(entry);
             }    
             await sendOrderEmail({email, merchantTransactionId, status, orderDateFormatted, deliveryDateFormatted, freeDelivery, totalPrice, totalQuantity, shortAddress, orderDetails, deliveryFee , orderID  });         
-            //await sendAdminOrderEmail({merchantTransactionId, status, orderDateFormatted, deliveryDateFormatted, freeDelivery, totalPrice, totalQuantity, shortAddress, orderDetails, deliveryFee , orderID, name, surname, deliveryAddress, cellNumber});
+            await sendAdminOrderEmail({merchantTransactionId, status, orderDateFormatted, deliveryDateFormatted, freeDelivery, totalPrice, totalQuantity, shortAddress, orderDetails, deliveryFee , orderID, name, surname, deliveryAddress, cellNumber});
 
           } catch (error) {
               console.error("Failed to fetch order details:", error);
