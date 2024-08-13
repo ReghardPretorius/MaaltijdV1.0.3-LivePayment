@@ -18,8 +18,8 @@ import "../styles/postPayment.css";
 const PostPay = () => {
 
 
-  const { transactionID } = useParams();
-  const merchantTransactionId = transactionID;
+  const { transactionId } = useParams();
+  const merchantTransactionId = transactionId;
   const [orderPlacedTimestamp, setOrderPlacedTimestamp] = useState('');
   const [stateMerchantTransactionId, setStateMerchantTransactionId] = useState('');
   
@@ -122,15 +122,17 @@ const [estDeliveryDate, setEstDeliveryDate] = useState('');
           // if (successCodes.includes(code)) {
           //   setStatus('Successful');
           const data = await getTransactionStatus({ merchantTransactionId }).unwrap();
-         const codes = Array.isArray(data.statusCodes) ? data.statusCodes : [data.statusCode];
-
-if (codes.some(code => successCodes.includes(code))) {
-  setStatus('Successful');
+          const resultCodes = data.map(item => item.resultCode);
+          
+          if (resultCodes.some(code => successCodes.includes(code))) {
+            setStatus('Successful');
 
 
 
             try {
-              const orderID = await getOrderID({ merchantTransactionId }).unwrap();
+              const orderData = await getOrderID({ merchantTransactionId }).unwrap();
+              const orderID = orderData[0]._id
+              console.log(orderID);
               const order1 = await getOrder({ orderID }).unwrap();
               let orderDate = new Date(order1[0].timestamp);
               const orderPlacedTimestamp = new Date();
@@ -215,7 +217,7 @@ setLoadingMessage(false);
     
         fetchPaymentStatusUrl();
         
-      }, []);
+      }, [stateMerchantTransactionId]);
 
 
       if (loadingMessage) {

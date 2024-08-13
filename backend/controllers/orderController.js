@@ -345,6 +345,7 @@ const OGOrderID = req.body.id
 // @access  Public
 
 const getTransactionStatus = asyncHandler(async (req, res) => {
+
   const { merchantTransactionId } = req.body; // Assuming user ID is passed in the route parameters
 
   // Input validation (optional but recommended):
@@ -367,7 +368,10 @@ const getTransactionStatus = asyncHandler(async (req, res) => {
 // @access  Public
 
 const getOrderID = asyncHandler(async (req, res) => {
+
+  console.log(req.body);
   const { merchantTransactionId } = req.body; // Assuming user ID is passed in the route parameters
+  console.log(merchantTransactionId);
 
   // Input validation (optional but recommended):
   if (!merchantTransactionId) {
@@ -376,8 +380,9 @@ const getOrderID = asyncHandler(async (req, res) => {
 
   // Efficiently retrieve orders using query with filtering by userID:
   const order = await Order.find({ merchantTransactionId });
+  console.log(order);
   if (order) {
-    res.status(200).json(order._id);
+    res.status(200).json(order);
   } else {
     res.status(404).json({ message: 'No order found for this order' });
   }
