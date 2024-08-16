@@ -297,7 +297,7 @@ const PaymentForm = ({ checkoutId, apiKey }) => {
   useEffect(() => {
 
     const script = document.createElement("script");
-    script.src = "https://sandbox-checkout.peachpayments.com/js/checkout.js";
+    script.src = "https://checkout.peachpayments.com/js/checkout.js";
     script.async = true;
     script.onload = () => {
       const Checkout = window.Checkout;
@@ -315,12 +315,14 @@ const PaymentForm = ({ checkoutId, apiKey }) => {
                 },
               },
         ordering: {
-          CARD: 1
+          CARD: 1,
           // MASTERPASS: 2,
-          // CAPITECPAY: 3,
-          // EFTSECURE: 4,
-          // PAYBYBANK: 5,
-          // SCANTOPAY:6,
+          CAPITECPAY: 2,
+          
+          
+          SCANTOPAY:3,
+          EFTSECURE: 4,
+          PAYBYBANK: 5,
         },
   
           events: {
@@ -541,8 +543,6 @@ const PaymentScreen = () => {
     </div>
     <div style={{  flexDirection: "column", alignItems: "center", height: remainingHeight,  overflowY: "auto" }}>
       {/* <iframe src={url} title="Payment" style={{ width: "100%", height: "50%", border: "none" }} /> */}
-      {checkoutId  && <p>ChackoutId: {checkoutId}</p>}
-      {apiKey && <p>API KEY: {apiKey}</p>}
       {checkoutId && apiKey && <PaymentForm checkoutId={checkoutId} apiKey={apiKey}/>}
     </div>
     </>

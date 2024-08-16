@@ -96,8 +96,8 @@ export const getCheckoutStatus = async (merchantTransactionId, signature, bearer
     'Content-Type': 'application/json',
   };
 
-  //var path = `https://secure.peachpayments.com/status?authentication.entityId=${process.env.ENTITY_ID}&merchantTransactionId=${merchantTransactionId}&signature=${signature}`;
-  var path = `https://testsecure.peachpayments.com/status?authentication.entityId=${process.env.ENTITY_ID}&merchantTransactionId=${merchantTransactionId}&signature=${signature}`; 
+  var path = `https://secure.peachpayments.com/status?authentication.entityId=${process.env.ENTITY_ID}&merchantTransactionId=${merchantTransactionId}&signature=${signature}`;
+  //var path = `https://testsecure.peachpayments.com/status?authentication.entityId=${process.env.ENTITY_ID}&merchantTransactionId=${merchantTransactionId}&signature=${signature}`; 
   //var path = 'https://testsecure.peachpayments.com/status?authentication.entityId=8ac7a4ca8f9f6a2b018fa014509d0208&merchantTransactionId=Test1&signature=c151fd1320716c13fa4b30ae7e98cd854f8a78602ee07167829d9971d4839c03';
   //var path = 'https://testsecure.peachpayments.com/status?authentication.entityId=8ac7a4ca8f9f6a2b018fa014509d0208&merchantTransactionId=Test1&signature=c151fd1320716c13fa4b30ae7e98cd854f8a78602ee07167829d9971d4839c03';
 
