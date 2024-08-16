@@ -29,7 +29,7 @@ const sendOrderEmail = asyncHandler(async (req, res) => {
 
   const mailOptions = {
     from: 'orders@maaltijd.co.za',
-    to: 'pretoriusita@icloud.com',
+    to: email,
     subject: `Maaltijd Order Confirmed | ${merchantTransactionId}`,
     html: `
     <html lang="en">
@@ -197,7 +197,7 @@ const sendAdminOrderEmail = asyncHandler(async (req, res) => {
 
   const mailOptions = {
     from: 'orders@maaltijd.co.za',
-    to: 'reghardp@gmail.com',
+    to: 'ordersmaaltijd@gmail.com',
     subject: `Maaltijd Order Confirmed | ${merchantTransactionId}`,
     html: `
     <html lang="en">

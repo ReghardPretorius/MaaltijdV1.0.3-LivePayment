@@ -86,6 +86,41 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+
+    createWalletLog: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/createwalletlog`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    
+    getWalletAmount: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/getwalletamount`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    createTempWalletLog: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/createtempwalletlog`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
+    getTempWalletLog: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/gettempwalletlog`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
   }),
 });
 
@@ -102,4 +137,8 @@ export const {
   useUpdateProfileMutation,
   useCellnumberExistsForOtherUsersMutation ,
   useUpdateAddressMutation,
+  useCreateWalletLogMutation,
+   useGetWalletAmountMutation,
+   useCreateTempWalletLogMutation,
+   useGetTempWalletLogMutation
 } = userApiSlice;

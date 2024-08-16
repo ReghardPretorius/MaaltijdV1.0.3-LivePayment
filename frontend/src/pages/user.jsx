@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import {   Modal  } from "react-bootstrap";
 
-import { useLogoutMutation } from '../slices/usersApiSlice';
+import { useLogoutMutation, useGetWalletAmountMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 
 import "../styles/user.css"; 
@@ -16,8 +16,10 @@ import "../styles/user.css";
 
 const UserProfilePage = () => {
     const email = useSelector((state) => state.auth.userInfo.email);
-    const walletState = useSelector((state) => state.auth.userInfo.wallet); 
+    const _id = useSelector((state) => state.auth.userInfo._id);
+    //const walletState = useSelector((state) => state.auth.userInfo.wallet); 
     const [displayEmail, setDisplayEmail] = useState('');
+    const [walletState, setWalletState] = useState('');
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showPP, setShowPP] = useState(false);
     const [showTerms, setShowTerms] = useState(false);
@@ -37,6 +39,7 @@ const UserProfilePage = () => {
     const dispatch = useDispatch();
 
     const [logoutApiCall] = useLogoutMutation();
+    const [getUsersWallet, { isLoadingGetUsersWallet }] = useGetWalletAmountMutation();
 
     const logoutHandler = async () => {
       try {
@@ -64,6 +67,16 @@ if (walletState === ''){
   setWallet(walletState);
 }
     }, [walletState]);
+
+useEffect(() => {
+  let userID = _id;
+  const handleGetWalletAmount = async ( userID ) => {
+  let amount1 = await getUsersWallet({ userID }).unwrap();
+  setWalletState(amount1.totalAmount);
+};
+
+handleGetWalletAmount(userID);
+}, [_id]);
 
     useEffect(() => {
         const handleResize = () => {

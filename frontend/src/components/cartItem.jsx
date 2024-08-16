@@ -36,10 +36,6 @@ const CartItem = ({ item, onClose }) => {
     event.stopPropagation();
   };
 
-//   const handlemealselection = () =>  {
-//     navigate(`/meals/${id}`);
-//     onClose(); 
-//   }
 
   return (
     <ListGroupItem className="border-0 cart__item carditem" >

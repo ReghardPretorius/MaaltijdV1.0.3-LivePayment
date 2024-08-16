@@ -295,9 +295,7 @@ const PaymentForm = ({ checkoutId, apiKey }) => {
 
 
   useEffect(() => {
-console.log("ping");
-    console.log(checkoutId);
-    console.log(apiKey);
+
     const script = document.createElement("script");
     script.src = "https://sandbox-checkout.peachpayments.com/js/checkout.js";
     script.async = true;
@@ -383,7 +381,7 @@ const PaymentScreen = () => {
     const deliveryAddress = useSelector((state) => state.auth.userInfo.formattedAddress);
     const shortAddress = useSelector((state) => state.auth.userInfo.addressName);
 
-    
+    const merchantInvoiceId = useSelector((state) => state.payment.merchantTransactionId);
     const totalPrice = useSelector((state) => state.cart.totalAmount);
     const cartItems = useSelector((state) => state.cart.cartItems);
     const deliveryDate = useSelector((state) => state.order.deliveryDay);
@@ -419,13 +417,13 @@ const PaymentScreen = () => {
     }, [totalQuantity]); 
 
 
-    //const street1 = streetNumber + ' ' + street;
-    //const postcode = useSelector((state) => state.auth.userInfo.postalCode);
-    //const amount = useSelector((state) => state.cart.totalAmount);
-    
-    const [merchantInvoiceId, setMerchantInvoiceId] = useState("");
-    //const merchantInvoiceId = 'INV0000008';
-    //console.log(givenName);
+// const [merchantInvoiceId, setMerchantInvoiceId] = useState("");
+
+// useEffect(() => {
+// setMerchantInvoiceId(merchantTransactionId);
+
+// }, [merchantTransactionId]); 
+
 
   const [url, setUrl] = useState("");
   const [checkoutId, setCheckoutId] = useState("");
@@ -444,96 +442,61 @@ const PaymentScreen = () => {
 
   useEffect(() => {
     const fetchPaymentUrl = async () => {
-    //   const response = await fetch(yourApi, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       basket: [
-    //         {
-    //           id: "item-1",
-    //           quantity: 1,
-    //         },
-    //       ],
-    //     }),
-    //   });
 
-    //   if (!response.ok) {
-    //     console.log("Error");
-    //     return;
-    //   }
-    //console.log(amount);
-
-      //const data = await checkoutApi(amount, givenName, surname, mobile , email, merchantCustomerId, street1, city, country ,state, postcode , merchantInvoiceId).unwrap();
-      //const data = await response.json();
-      console.log(merchantInvoiceId);
       const data = await checkoutApi({amount, givenName, surname, mobile , email, merchantCustomerId, street1, city, country ,state, postcode , merchantInvoiceId}).unwrap();
-      console.log(data)
       setUrl(data.url);
       setCheckoutId(data.checkout_Id); // Assuming API returns checkoutId
       setApiKey(data.entityId); // Assuming API returns key
       setBearerToken(data.bearerToken);
-      //console.log(data.bearerToken);
       dispatch(updateCheckoutId(checkoutId));
       dispatch(updateBearerToken(bearerToken));
-      //console.log(data.entityId);
+
     };
 
     const createOrderNumber = async () => {
-      let freeDelivery; // Declare here
-      let deliveryFee;  // Declare here
+      // let freeDelivery; // Declare here
+      // let deliveryFee;  // Declare here
   
-      if (totalQuantity >= 3) {
-          freeDelivery = 'Yes';
-          deliveryFee = '0';
-      } else {
-          freeDelivery = 'No';
-          deliveryFee = '20';
-      }
-        const orderIDraw = await createOrder({userID}).unwrap();
-        console.log(orderIDraw);
-        const order = orderIDraw;
+      // if (totalQuantity >= 3) {
+      //     freeDelivery = 'Yes';
+      //     deliveryFee = '0';
+      // } else {
+      //     freeDelivery = 'No';
+      //     deliveryFee = '20';
+      // }
+      //   const orderIDraw = await createOrder({userID}).unwrap();
+      //   console.log(orderIDraw);
+      //   const order = orderIDraw;
 
-        //console.log(freeDelivery);
-        const updatedOrderId = await updateOrder({order, totalPrice, totalQuantity, deliveryLat, deliveryLong, deliveryAddress, typesOfItems, freeDelivery, deliveryDate, shortAddress, deliveryFee}).unwrap();
-        const orderID = orderIDraw._id;
-        const merchantTransactionId = orderIDraw.merchantTransactionId;
-        const merchantInvoiceId = orderIDraw.merchantTransactionId;
-        dispatch(updateMerchantTransactionId(merchantTransactionId));
-        //setIsLoadingMerchantID(false);
-        //console.log(updatedOrderId);
-        //console.log(orderID);
-        //console.log(cartItems);
-        console.log(merchantTransactionId);
-        console.log(merchantInvoiceId);
-        for (let i = 0; i < cartItems.length; i++) {
-          let orderItemCode = cartItems[i].id;
-          let orderItemPrice = cartItems[i].price;
-          let quantity = cartItems[i].quantity;
-          let orderItemName = cartItems[i].title;
-          let orderTotalPrice = cartItems[i].totalPrice;
+
+      //   const updatedOrderId = await updateOrder({order, totalPrice, totalQuantity, deliveryLat, deliveryLong, deliveryAddress, typesOfItems, freeDelivery, deliveryDate, shortAddress, deliveryFee}).unwrap();
+      //   const orderID = orderIDraw._id;
+      //   const merchantTransactionId = orderIDraw.merchantTransactionId;
+      //   const merchantInvoiceId = orderIDraw.merchantTransactionId;
+      //   dispatch(updateMerchantTransactionId(merchantTransactionId));
+
+      //   console.log(merchantTransactionId);
+      //   console.log(merchantInvoiceId);
+      //   for (let i = 0; i < cartItems.length; i++) {
+      //     let orderItemCode = cartItems[i].id;
+      //     let orderItemPrice = cartItems[i].price;
+      //     let quantity = cartItems[i].quantity;
+      //     let orderItemName = cartItems[i].title;
+      //     let orderTotalPrice = cartItems[i].totalPrice;
           
 
-          //console.log(`i:${i}`);
-          //console.log(`Title :${orderItemName}`);
-          const orderItemID = await createOrderItem({orderID, userID, orderItemCode, orderItemName, quantity, orderTotalPrice, orderItemPrice, deliveryDate, merchantTransactionId    }).unwrap();
-          //console.log(orderItemID);
-          //console.log(merchantInvoiceId);
+      //     const orderItemID = await createOrderItem({orderID, userID, orderItemCode, orderItemName, quantity, orderTotalPrice, orderItemPrice, deliveryDate, merchantTransactionId    }).unwrap();
 
-        }
+
+      //   }
 
         const data = await checkoutApi({amount, givenName, surname, mobile , email, merchantCustomerId, street1, city, country ,state, postcode , merchantInvoiceId}).unwrap();
-        console.log(data)
         setUrl(data.url);
         setCheckoutId(data.checkout_Id); // Assuming API returns checkoutId
         setApiKey(data.entityId); // Assuming API returns key
         setBearerToken(data.bearerToken);
-        //console.log(data.bearerToken);
         dispatch(updateCheckoutId(checkoutId));
         dispatch(updateBearerToken(bearerToken));
-        console.log(checkoutId);
-       // const order = await updateOrder({}).unwrap();
 
 
       };
@@ -554,7 +517,7 @@ const PaymentScreen = () => {
   //let checkInterval = setInterval(checkLoadingStatus, 100);
     //fetchPaymentUrl();
 
-  }, []);
+  }, [merchantInvoiceId]);
 
   // if (!url) {
   //   return <div>Loading...</div>;

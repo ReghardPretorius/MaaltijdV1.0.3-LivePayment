@@ -12,6 +12,10 @@ import {
   getCellNumberExitsForOtherUser,
   updateProfile,
   updateAddress,
+  createWalletLog, 
+  getUserWalletAmountLog,
+  createTempWalletLog,
+  getTempWalletLog
 } from '../controllers/userController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -32,5 +36,10 @@ router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
+  router.route('/getwalletamount').post(protect, getUserWalletAmountLog);
+  router.route('/createwalletlog').post(protect, createWalletLog);
+  
+router.route('/createtempwalletlog').post(protect, createTempWalletLog);
+router.route('/gettempwalletlog').post(protect, getTempWalletLog);
 
 export default router;

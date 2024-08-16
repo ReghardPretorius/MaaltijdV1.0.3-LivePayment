@@ -2,6 +2,8 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import Address from '../models/addressModel.js';
 import generateToken from '../utils/generateToken.js';
+import WalletLog from '../models/walletLog.js';
+import TempWalletLog from '../models/tempWalletLog.js';
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -441,6 +443,114 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Create a new wallet log
+// @route   POST /api/users
+// @access  Public
+const getUserWalletAmountLog = asyncHandler(async (req, res) => {
+  const { userID} = req.body;
+ 
+
+
+// Get the current date
+const currentDate = new Date();
+
+// Fetch wallets from the database with the specified userID
+const wallets = await WalletLog.find({ userID });
+
+if (wallets) {
+  // Filter wallets based on the specified conditions
+  const validWallets = wallets.filter(wallet => {
+    // Convert wallet.expiryDate to a Date object
+    const expiryDate = new Date(wallet.expiryDate);
+
+    // Return wallets where expiry is "No" or expiry is "Yes" but the expiryDate is in the future
+    return wallet.expire === "No" || (wallet.expire === "Yes" && expiryDate > currentDate);
+  });
+
+  // Sum the walletAmount of the remaining valid wallets
+  const totalAmount = validWallets.reduce((sum, wallet) => sum + wallet.walletAmount, 0);
+
+  // Return the total amount
+  res.status(201).json({ totalAmount });
+} else {
+  res.status(400);
+  throw new Error('Invalid data');
+}
+
+});
+
+// @desc    Create a new wallet log
+// @route   POST /api/users
+// @access  Public
+const createWalletLog = asyncHandler(async (req, res) => {
+  const { userID, walletAmount, admin, campaign, expire, expiryDate, allocatedBy,  userName, merchantTransactionId} = req.body;
+
+  const walletAmountNumber = Number(walletAmount);
+
+    const walletLog = await WalletLog.create({
+      userID,
+      walletAmount: walletAmountNumber, 
+      admin, 
+      campaign,
+      expire,
+      allocatedBy,  
+      userName,
+      merchantTransactionId
+
+    });
+    if (walletLog) {
+      res.status(201).json(walletLog);
+    } else {
+      res.status(400);
+      throw new Error('Invalid data');
+    }
+
+});
+
+// @desc    Create a new wallet log
+// @route   POST /api/users
+// @access  Public
+const getTempWalletLog  = asyncHandler(async (req, res) => {
+  const { userID, merchantTransactionId} = req.body;
+
+  const log = await TempWalletLog.findOne({merchantTransactionId});
+  if (log) {
+    if (log.userID === userID) {
+      res.status(201).json(log);
+    } else {
+      res.status(400);
+      throw new Error('Invalid data');
+    }
+  } else {
+    res.status(200).json({ message: 'No wallet' });
+  }
+
+});
+
+// @desc    Create a new wallet log
+// @route   POST /api/users
+// @access  Public
+const createTempWalletLog = asyncHandler(async (req, res) => {
+  const { userID, walletAmount, merchantTransactionId,  userName} = req.body;
+  const walletAmountNumber = Number(walletAmount);
+
+    const walletLog = await TempWalletLog.create({
+      userID,
+      walletAmount: walletAmountNumber, 
+      merchantTransactionId,   
+      userName
+    });
+
+    if (walletLog) {
+      res.status(201).json(walletLog);
+    } else {
+      res.status(400);
+      throw new Error('Invalid data');
+    }
+
+});
+
+
 
 export {
   authUser,
@@ -455,4 +565,8 @@ export {
   getCellNumberExitsForOtherUser,
   updateProfile,
   updateAddress,
+  getUserWalletAmountLog,
+  createWalletLog,
+  createTempWalletLog,
+  getTempWalletLog,
 };

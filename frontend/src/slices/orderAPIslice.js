@@ -110,6 +110,16 @@ getOrderID: builder.mutation({
   }),
 }),
 
+getPiadOrderDetailsByMTID: builder.mutation({
+  query: (data) => ({
+    url: `${ORDERS_URL}/paidorderdetailsbymtid`,
+    method: 'POST',
+    body: data,
+  }),
+}),
+
+
+
 
   }),
 });
@@ -128,6 +138,8 @@ export const {
     useGetPaidOrderDetailsMutation,
     useSendAdminOrderEmailMutation,
     useGetTransactionStatusMutation,
-    useGetOrderIDMutation
+    useGetOrderIDMutation,
+    useGetPiadOrderDetailsByMTIDMutation
+
 
 } = orderApiSlice;

@@ -11,7 +11,8 @@ import {
     updateStatusLog,
     getPaidOrderDetails,
     getTransactionStatus,
-    getOrderID
+    getOrderID,
+    getPaidOrderDetailsByMerchant
 } from '../controllers/orderController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -29,6 +30,8 @@ router.route('/updateStatus').post(protect, updateStatusLog);
 router.route('/paidorderdetails').post(protect, getPaidOrderDetails);
 router.route('/transactionstatus').post(protect, getTransactionStatus);
 router.route('/getorderID').post(protect, getOrderID);
+router.route('/paidorderdetailsbymtid').post(protect, getPaidOrderDetailsByMerchant);
+
 
 
 

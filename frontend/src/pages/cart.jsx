@@ -38,17 +38,7 @@ const Cart = () => {
   const [remainingHeight, setRemainingHeight] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
 
-  // useEffect(() => {
-  //   const storage = new LocalStorage();
-  //   const notificationShownToday = storage.getItem(localStorageKey);
 
-  //   // Check if notification has already been shown today (using date comparison)
-  //   const today = new Date().toLocaleDateString();
-  //   if (!notificationShownToday || notificationShownToday !== today) {
-  //     setShowNotification(true);
-  //     storage.setItem(localStorageKey, today); // Store the shown date
-  //   }
-  // }, []);
 
   const checkNotification = () => {
     const lastShownDate = localStorage.getItem("notificationDate");
@@ -57,6 +47,10 @@ const Cart = () => {
     if (lastShownDate !== today) {
       localStorage.setItem("notificationDate", today);
       setShowNotification(true);
+    }
+
+    if (cartProducts.length === 0){
+      setShowNotification(false);
     }
   };
 

@@ -146,8 +146,12 @@ const createOrderItem = asyncHandler(async (req, res) => {
 const createPaidOrder = asyncHandler(async (req, res) => {
   //const { name, email, password } = req.body;
   const { userID, totalPrice, deliveryLat, deliveryLong , deliveryAddress, freeDelivery, totalQuantity, typesOfItems, deliveryDate, shortAddress , status, OGOrderID, merchantTransactionId, deliveryFee  } = req.body;
- const numberOfFailedDeliveryAttempts = 0;
- const rescheduled = "No";
+  const numberOfFailedDeliveryAttempts = 0;
+  const rescheduled = "No";
+  const existingOrder = await PaidOrder.findOne({ merchantTransactionId });
+  
+  if (!existingOrder) {
+
 
   const paidorder = await PaidOrder.create({
     userID,
@@ -176,6 +180,7 @@ const createPaidOrder = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Invalid data');
   }
+}
 });
 
   // @desc   Get all user orders
@@ -262,6 +267,32 @@ const getPaidOrderDetails = asyncHandler(async (req, res) => {
   } else {
     res.status(404).json({ message: 'No order found for this order' });
   }
+});
+
+  // @desc   Get a single order
+// @route   POST /api/users
+// @access  Public
+
+const getPaidOrderDetailsByMerchant = asyncHandler(async (req, res) => {
+  const { merchantTransactionId, userID } = req.body; // Assuming user ID is passed in the route parameters
+
+  // Input validation (optional but recommended):
+  if (!merchantTransactionId) {
+    return res.status(400).json({ message: 'Missing required parameter: merchantTrasnactionId' });
+  }
+
+  // Efficiently retrieve orders using query with filtering by userID:
+  const order = await PaidOrder.findOne({ merchantTransactionId });
+  if(order){
+    if (order.userID === userID) {
+      res.status(200).json(order);
+    } else {
+      res.status(404).json({ message: 'No order found for this order' });
+    }
+  } else {
+    res.status(200).json({ message: 'No order' });
+  }
+
 });
 
 
@@ -369,9 +400,9 @@ const getTransactionStatus = asyncHandler(async (req, res) => {
 
 const getOrderID = asyncHandler(async (req, res) => {
 
-  console.log(req.body);
+  //console.log(req.body);
   const { merchantTransactionId } = req.body; // Assuming user ID is passed in the route parameters
-  console.log(merchantTransactionId);
+  //console.log(merchantTransactionId);
 
   // Input validation (optional but recommended):
   if (!merchantTransactionId) {
@@ -380,7 +411,7 @@ const getOrderID = asyncHandler(async (req, res) => {
 
   // Efficiently retrieve orders using query with filtering by userID:
   const order = await Order.find({ merchantTransactionId });
-  console.log(order);
+  //console.log(order);
   if (order) {
     res.status(200).json(order);
   } else {
@@ -404,5 +435,6 @@ export {
   updateStatusLog,
   getPaidOrderDetails,
   getTransactionStatus,
-  getOrderID
+  getOrderID,
+  getPaidOrderDetailsByMerchant
 };

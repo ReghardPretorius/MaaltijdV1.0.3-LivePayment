@@ -12,3 +12,8 @@
     max-width: 300px;
     
 }
+
+.walletcard-content{
+    background-color: lightgrey;
+    border-radius: 5px;
+}

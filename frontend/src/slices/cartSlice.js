@@ -205,6 +205,14 @@ const cartSlice = createSlice({
           );
         },
 
+    //============ Change total ===========
+
+    changeTotal(state, action) {
+      const newTotal = action.payload;
+
+      state.totalAmount = newTotal;
+    },
+
             //============ add promo code ===========
 
     addPromoCode(state, action) {
